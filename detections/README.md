@@ -6,7 +6,8 @@ This directory contains detection strategies aligned to PR3TACK techniques.
 
 ## Structure
 
-- `rules/` → SIEM / EDR style detections, SIGMA-based
+- `rules/` → SIEM / EDR style detections, SIGMA-based (full markdown with tuning notes)
+- `sigma/` → standalone SIGMA `.yml` files for direct import into detection platforms
 - `analytics/` → behavioural / statistical detections
 - `hunting/` → hypothesis-driven threat hunting
 

@@ -1,0 +1,53 @@
+title: PR3TACK T1016.001 — High-Privilege OAuth Consent Grant to Third-Party Application
+id: c4a9f163-2e7d-4c8b-a1f5-9d3b7e6c2a47
+status: experimental
+description: >
+  Detects new OAuth 2.0 consent grants where a third-party application is granted
+  high-privilege scopes against core SaaS hub resources (email read/write, files
+  read/write, directory administration). These grants represent potential lateral-movement
+  vectors if the authorised spoke application is subsequently compromised. This
+  technique is a key enabler of hub-and-spoke SaaS compromise chains.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1016.001-saas-app-to-app-permission-mining.md
+  - https://attack.mitre.org/techniques/T1526/
+author: PR3TACK
+date: 2026/05/19
+modified: 2026/05/19
+tags:
+  - attack.reconnaissance
+  - attack.persistence
+  - attack.t1526
+  - pr3tack.TA01
+  - pr3tack.T1016.001
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    eventName: 'AUTHORIZE_API_CLIENT_ACCESS'
+    parameters.scope|contains:
+      - 'https://mail.google.com/'
+      - 'https://www.googleapis.com/auth/gmail'
+      - 'https://www.googleapis.com/auth/drive'
+      - 'https://www.googleapis.com/auth/admin.directory'
+      - 'https://www.googleapis.com/auth/calendar'
+      - 'https://www.googleapis.com/auth/contacts'
+      - 'https://www.googleapis.com/auth/cloud-platform'
+  filter_approved:
+    # Populate with approved app client IDs from your app governance register
+    parameters.client_id:
+      - 'APPROVED_CLIENT_ID_1'
+      - 'APPROVED_CLIENT_ID_2'
+  condition: selection and not filter_approved
+falsepositives:
+  - Authorised integrations approved through the app governance process
+  - IT-managed service accounts with documented high-privilege grants
+  - Internal tooling using service account credentials
+level: high
+fields:
+  - actor.email
+  - parameters.client_id
+  - parameters.app_name
+  - parameters.scope
+  - ipAddress
+  - time

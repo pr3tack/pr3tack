@@ -1,0 +1,67 @@
+title: PR3TACK T1201.001 — Anomalous tmpfs or Overlay Mount Over Non-Standard Directory
+id: h8a4d315-1c6f-4b8e-f9a3-4d2c7b9e5f61
+status: experimental
+description: >
+  Detects mount syscalls creating tmpfs or overlay filesystems over non-standard
+  directories that are not part of expected OS or container runtime mount patterns.
+  This technique exploits standard Unix filesystem semantics to hide staged data
+  beneath a temporary filesystem overlay, making it invisible to file-based security
+  scanners and OS directory listings while the mount is active.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1201.001-over-mounting-cloaking.md
+  - https://attack.mitre.org/techniques/T1564/
+  - https://man7.org/linux/man-pages/man8/mount.8.html
+author: PR3TACK
+date: 2026/05/19
+modified: 2026/05/19
+tags:
+  - attack.defense_evasion
+  - attack.t1564
+  - pr3tack.TA12
+  - pr3tack.T1201.001
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    type: 'SYSCALL'
+    syscall: 'mount'
+    a2|contains:
+      - 'tmpfs'
+      - 'overlay'
+      - 'overlayfs'
+  filter_os_mounts:
+    a1|startswith:
+      - '/tmp'
+      - '/run'
+      - '/dev/shm'
+      - '/sys'
+      - '/proc'
+      - '/dev'
+  filter_container_runtime:
+    ppid_exe|contains:
+      - 'dockerd'
+      - 'containerd'
+      - 'kubelet'
+      - 'runc'
+      - 'crun'
+      - 'podman'
+  condition: selection and not filter_os_mounts and not filter_container_runtime
+falsepositives:
+  - Container runtimes (Docker, containerd, Podman) mounting overlay filesystems during container lifecycle
+  - Kubernetes kubelet overlay mounts for pod filesystem setup
+  - Legitimate in-memory data processing using tmpfs mounts
+  - systemd-managed tmpfs mounts for service sandboxing
+level: high
+fields:
+  - pid
+  - ppid
+  - uid
+  - gid
+  - exe
+  - ppid_exe
+  - a1
+  - a2
+  - comm
+  - key
+  - node
