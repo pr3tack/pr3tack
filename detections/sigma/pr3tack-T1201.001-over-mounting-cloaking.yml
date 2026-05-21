@@ -1,5 +1,5 @@
 title: PR3TACK T1201.001 — Anomalous tmpfs or Overlay Mount Over Non-Standard Directory
-id: h8a4d315-1c6f-4b8e-f9a3-4d2c7b9e5f61
+id: c8a4d315-1c6f-4b8e-f9a3-4d2c7b9e5f61
 status: experimental
 description: >
   Detects mount syscalls creating tmpfs or overlay filesystems over non-standard

@@ -29,7 +29,6 @@ detection:
     cloud_tenant_age_days|lte: 365
     is_free_tier_asn: true
   timeframe: 24h
-  condition: selection | count() by cloud_tenant_id > 500
   filter_known_tenants:
     cloud_tenant_id|contains:
       # Populate with your known-good partner/integration tenant IDs

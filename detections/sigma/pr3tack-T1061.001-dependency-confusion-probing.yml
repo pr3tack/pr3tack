@@ -1,5 +1,5 @@
 title: PR3TACK T1061.001 — Dependency Confusion — Public Registry Resolution of Internal Package Name
-id: g5e1c729-8d4b-4a3f-e7c2-9b6d1f8a3e57
+id: a5e1c729-8d4b-4a3f-e7c2-9b6d1f8a3e57
 status: experimental
 description: >
   Detects when a package manager or artefact proxy resolves a package from a public
