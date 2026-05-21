@@ -1,0 +1,62 @@
+title: PR3TACK T1061.001 — Dependency Confusion — Public Registry Resolution of Internal Package Name
+id: a5e1c729-8d4b-4a3f-e7c2-9b6d1f8a3e57
+status: experimental
+description: >
+  Detects when a package manager or artefact proxy resolves a package from a public
+  registry (npm, PyPI, RubyGems, NuGet) where the package name matches internal naming
+  conventions. This indicates a successful or attempted dependency confusion attack,
+  where an adversary has registered an internal-sounding package name on a public registry
+  to intercept automated build system dependency resolution.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1061.001-dependency-confusion-probing.md
+  - https://medium.com/@alex.birsan/dependency-confusion-4a5d60fec610
+  - https://attack.mitre.org/techniques/T1195/
+author: PR3TACK
+date: 2026/05/19
+modified: 2026/05/19
+tags:
+  - attack.supply_chain
+  - attack.initial_access
+  - attack.t1195
+  - pr3tack.TA06
+  - pr3tack.T1061.001
+logsource:
+  category: proxy
+  product: artifactory
+detection:
+  selection:
+    repo_type: 'remote'
+    registry_url|contains:
+      - 'registry.npmjs.org'
+      - 'pypi.org'
+      - 'files.pythonhosted.org'
+      - 'rubygems.org'
+      - 'nuget.org'
+    package_name|contains:
+      # Adapt these patterns to your organisation's internal naming conventions
+      - '@myorg/'
+      - 'myorg-'
+      - 'internal-'
+      - 'corp-'
+      - 'private-'
+      - 'company-'
+  filter_sanctioned:
+    # Populate with officially published public packages from your org
+    package_name:
+      - 'myorg-public-sdk'
+      - 'myorg-open-source-lib'
+  condition: selection and not filter_sanctioned
+falsepositives:
+  - Intentional public packages published by the organisation under its own namespace
+  - Open-source packages that coincidentally share a naming pattern with internal packages
+level: critical
+fields:
+  - package_name
+  - package_version
+  - registry_url
+  - repo_type
+  - requester_ip
+  - requester_user
+  - build_id
+  - pipeline_name
+  - download_timestamp

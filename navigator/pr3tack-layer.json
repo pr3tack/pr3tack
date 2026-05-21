@@ -1,0 +1,311 @@
+{
+  "name": "PR3TACK v0.1 — Preemptive Tactics & Countermeasures",
+  "versions": {
+    "attack": "14",
+    "navigator": "4.9",
+    "layer": "4.5"
+  },
+  "domain": "enterprise-attack",
+  "description": "PR3TACK v0.1 seed matrix — forward-looking techniques covering plausible, unobserved adversary behaviours across SaaS, cloud, AI, supply chain, and Unix environments. Techniques are mapped to their nearest MITRE ATT&CK tactic where applicable. See https://github.com/pr3tack/pr3tack for full technique details.",
+  "filters": {
+    "platforms": [
+      "Linux",
+      "macOS",
+      "Windows",
+      "IaaS",
+      "SaaS",
+      "Containers",
+      "Network"
+    ]
+  },
+  "sorting": 0,
+  "layout": {
+    "layout": "side",
+    "aggregateFunction": "average",
+    "showID": true,
+    "showName": true,
+    "showAggregateScores": false,
+    "countUnscored": false,
+    "expandedSubtechniques": "annotated"
+  },
+  "hideDisabled": false,
+  "techniques": [
+    {
+      "techniqueID": "T1595",
+      "tactic": "reconnaissance",
+      "color": "#e8724a",
+      "comment": "PR3TACK T1012.001 — SaaS Tenant Footprinting: Mapping the target's SaaS sprawl via unauthenticated vanity URL and OIDC endpoint probing. MITRE gap: focuses on the external SaaS API surface rather than standard network/DNS recon.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1012.001" },
+        { "name": "PR3TACK Name", "value": "SaaS Tenant Footprinting" },
+        { "name": "Tactic", "value": "TA01 — Reconnaissance" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/rules/T1012.001-saas-tenant-footprinting.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-T1012.001-saas-tenant-footprinting.yml" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA01-reconnaissance/T1012.001-saas-tenant-footprinting.md" },
+        { "label": "Detection", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1012.001-saas-tenant-footprinting.md" }
+      ],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1590",
+      "tactic": "reconnaissance",
+      "color": "#e8724a",
+      "comment": "PR3TACK T1015.001 — CSPM Signature Leakage: Identifying security vendors (Zscaler, Netskope) via CNAME records or HTTP headers to tailor bypasses. MITRE gap: adversarial recon of defensive security stack — Security Stack Fingerprinting.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1015.001" },
+        { "name": "PR3TACK Name", "value": "CSPM Signature Leakage" },
+        { "name": "Tactic", "value": "TA01 — Reconnaissance" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/rules/T1015.001-cspm-signature-leakage.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-T1015.001-cspm-signature-leakage.yml" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA01-reconnaissance/T1015.001-cspm-signature-leakage.md" },
+        { "label": "Detection", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1015.001-cspm-signature-leakage.md" }
+      ],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1526",
+      "tactic": "discovery",
+      "color": "#e8724a",
+      "comment": "PR3TACK T1016.001 — SaaS App-to-App Permission Mining: Analysing SaaS marketplaces to map third-party app permissions and identify weaker spoke apps as lateral-movement vectors. MITRE gap: external, unauthenticated hub-and-spoke trust mapping.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1016.001" },
+        { "name": "PR3TACK Name", "value": "SaaS App-to-App Permission Mining" },
+        { "name": "Tactic", "value": "TA01 — Reconnaissance" },
+        { "name": "Response Priority", "value": "High" },
+        { "name": "Detection", "value": "detections/rules/T1016.001-saas-app-to-app-permission-mining.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-T1016.001-saas-app-to-app-permission-mining.yml" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA01-reconnaissance/T1016.001-saas-app-to-app-permission-mining.md" },
+        { "label": "Detection", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1016.001-saas-app-to-app-permission-mining.md" }
+      ],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1078.004",
+      "tactic": "defense-evasion",
+      "color": "#e84a4a",
+      "comment": "PR3TACK T1018.001 — Identity Role Squatting Prep: Identifying decommissioned IAM roles referenced in public repos/docs and monitoring for re-registration opportunities. MITRE gap: temporal vulnerability of ghost identities — lateral movement via omission.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1018.001" },
+        { "name": "PR3TACK Name", "value": "Identity Role Squatting Prep" },
+        { "name": "Tactic", "value": "TA01 — Reconnaissance" },
+        { "name": "Response Priority", "value": "Critical" },
+        { "name": "Detection", "value": "detections/rules/T1018.001-identity-role-squatting-prep.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-T1018.001-identity-role-squatting-prep.yml" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA01-reconnaissance/T1018.001-identity-role-squatting-prep.md" },
+        { "label": "Detection", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1018.001-identity-role-squatting-prep.md" }
+      ],
+      "showSubtechniques": true
+    },
+    {
+      "techniqueID": "T1213",
+      "tactic": "collection",
+      "color": "#e8724a",
+      "comment": "PR3TACK T1101.001 — Vector Database Reconnaissance: Iterative nearest-neighbour queries against vector DB / RAG pipelines to reconstruct source documents and harvest metadata. MITRE gap: AI/ML infrastructure as a reconnaissance target.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1101.001" },
+        { "name": "PR3TACK Name", "value": "Vector Database Reconnaissance" },
+        { "name": "Tactic", "value": "TA01 — Reconnaissance" },
+        { "name": "Response Priority", "value": "High" },
+        { "name": "Detection", "value": "detections/hunting/T1101.001-vector-database-reconnaissance.md" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA01-reconnaissance/T1101.001-vector-database-reconnaissance.md" },
+        { "label": "Hunt", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/T1101.001-vector-database-reconnaissance.md" }
+      ],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1585",
+      "tactic": "resource-development",
+      "color": "#9b59b6",
+      "comment": "PR3TACK T1025.001 — AI-Generated Persona Synthesis: Using Generative AI to create high-fidelity synthetic identities (headshots, fake histories) that bypass New User scrutiny. MITRE gap: industrialised AI-powered identity fabrication.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1025.001" },
+        { "name": "PR3TACK Name", "value": "AI-Generated Persona Synthesis" },
+        { "name": "Tactic", "value": "TA02 — Resource Development" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/analytics/T1025.001-ai-generated-persona-synthesis.md" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA02-resource-development/T1025.001-ai-generated-persona-synthesis.md" },
+        { "label": "Analytic", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/T1025.001-ai-generated-persona-synthesis.md" }
+      ],
+      "showSubtechniques": true
+    },
+    {
+      "techniqueID": "T1585",
+      "tactic": "resource-development",
+      "color": "#9b59b6",
+      "comment": "PR3TACK T1025.002 — Automated Social Proofing: Using botnets and AI personas to manufacture social proof (endorsements, stars, connections) that bypasses fake-profile detection. MITRE gap: industrialisation of legitimacy via coordinated inauthentic behaviour.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1025.002" },
+        { "name": "PR3TACK Name", "value": "Automated Social Proofing" },
+        { "name": "Tactic", "value": "TA02 — Resource Development" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/analytics/T1025.002-automated-social-proofing.md" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA02-resource-development/T1025.002-automated-social-proofing.md" },
+        { "label": "Analytic", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/T1025.002-automated-social-proofing.md" }
+      ],
+      "showSubtechniques": true
+    },
+    {
+      "techniqueID": "T1583",
+      "tactic": "resource-development",
+      "color": "#9b59b6",
+      "comment": "PR3TACK T1028.001 — Cloud Account Incubation: Creating and aging cloud accounts to build a warm reputation and bypass anomaly detection based on account age. MITRE gap: temporal incubation of trust — patience as an adversary capability.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1028.001" },
+        { "name": "PR3TACK Name", "value": "Cloud Account Incubation" },
+        { "name": "Tactic", "value": "TA02 — Resource Development" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/analytics/T1028.001-cloud-account-incubation.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-T1028.001-cloud-account-incubation.yml" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA02-resource-development/T1028.001-cloud-account-incubation.md" },
+        { "label": "Analytic", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/T1028.001-cloud-account-incubation.md" },
+        { "label": "Hunt", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/T1028.001-cloud-account-incubation.md" }
+      ],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1587",
+      "tactic": "resource-development",
+      "color": "#e84a4a",
+      "comment": "PR3TACK T1103.001 — LLM Mirroring & Local Jailbreak Prep: Downloading open-weight LLM copies to rehearse prompt injection offline, developing bypass strings with zero detection risk before deploying against the live target. MITRE gap: offline preparation of AI-specific exploits.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1103.001" },
+        { "name": "PR3TACK Name", "value": "LLM Mirroring & Local Jailbreak Prep" },
+        { "name": "Tactic", "value": "TA02 — Resource Development" },
+        { "name": "Response Priority", "value": "Critical" },
+        { "name": "Detection", "value": "detections/rules/T1103.001-llm-mirroring-local-jailbreak-prep.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-T1103.001-llm-mirroring-jailbreak-prep.yml" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA02-resource-development/T1103.001-llm-mirroring-local-jailbreak-prep.md" },
+        { "label": "Detection", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1103.001-llm-mirroring-local-jailbreak-prep.md" }
+      ],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1195",
+      "tactic": "initial-access",
+      "color": "#e84a4a",
+      "comment": "PR3TACK T1061.001 — Dependency Confusion Probing: Registering internal-sounding package names on public registries to exploit automated build systems. MITRE gap: the specific reconnaissance phase of identifying internal package names via public leak mining.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1061.001" },
+        { "name": "PR3TACK Name", "value": "Dependency Confusion Probing" },
+        { "name": "Tactic", "value": "TA06 — Supply Chain Preparation" },
+        { "name": "Response Priority", "value": "Critical" },
+        { "name": "Detection", "value": "detections/rules/T1061.001-dependency-confusion-probing.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-T1061.001-dependency-confusion-probing.yml" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA06-supply-chain-preparation/T1061.001-dependency-confusion-probing.md" },
+        { "label": "Detection", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1061.001-dependency-confusion-probing.md" }
+      ],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1564",
+      "tactic": "defense-evasion",
+      "color": "#2ecc71",
+      "comment": "PR3TACK T1201.001 — Over-Mounting Cloaking: Staging data in a directory then mounting a tmpfs overlay to hide it from the OS and file-based scanners. MITRE gap: mount-namespace-based concealment using standard Unix kernel features — no rootkit or file attribute change required.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1201.001" },
+        { "name": "PR3TACK Name", "value": "Over-Mounting Cloaking" },
+        { "name": "Tactic", "value": "TA12 — Unix Contextual Stealth" },
+        { "name": "Response Priority", "value": "High" },
+        { "name": "Detection", "value": "detections/rules/T1201.001-over-mounting-cloaking.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-T1201.001-over-mounting-cloaking.yml" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA12-unix-contextual-stealth/T1201.001-over-mounting-cloaking.md" },
+        { "label": "Detection", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1201.001-over-mounting-cloaking.md" }
+      ],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1552",
+      "tactic": "credential-access",
+      "color": "#2ecc71",
+      "comment": "PR3TACK T1202.001 — /proc Environmental Archaeology: Mining /proc/[pid]/environ for secrets injected into co-located containers via environment variables. MITRE gap: process-level environment variable exposure via the /proc filesystem in shared-kernel and container environments.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "T1202.001" },
+        { "name": "PR3TACK Name", "value": "/proc Environmental Archaeology" },
+        { "name": "Tactic", "value": "TA12 — Unix Contextual Stealth" },
+        { "name": "Response Priority", "value": "High" },
+        { "name": "Detection", "value": "detections/rules/T1202.001-proc-environmental-archaeology.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-T1202.001-proc-environmental-archaeology.yml" }
+      ],
+      "links": [
+        { "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/TA12-unix-contextual-stealth/T1202.001-proc-environmental-archaeology.md" },
+        { "label": "Detection", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1202.001-proc-environmental-archaeology.md" }
+      ],
+      "showSubtechniques": false
+    }
+  ],
+  "gradient": {
+    "colors": ["#ffffff", "#e84a4a"],
+    "minValue": 0,
+    "maxValue": 100
+  },
+  "legendItems": [
+    {
+      "color": "#e84a4a",
+      "label": "Critical / High Priority — PR3TACK Technique"
+    },
+    {
+      "color": "#e8724a",
+      "label": "Medium Priority — PR3TACK Technique"
+    },
+    {
+      "color": "#9b59b6",
+      "label": "Resource Development — PR3TACK Technique"
+    },
+    {
+      "color": "#2ecc71",
+      "label": "Unix Contextual Stealth — PR3TACK Technique"
+    }
+  ],
+  "metadata": [
+    { "name": "Framework", "value": "PR3TACK" },
+    { "name": "Version", "value": "0.1" },
+    { "name": "Release", "value": "FIRST Conference 2026 — Denver, Colorado" },
+    { "name": "Contact", "value": "join@pr3tack.org" },
+    { "name": "Repository", "value": "https://github.com/pr3tack/pr3tack" }
+  ],
+  "links": [
+    { "label": "PR3TACK Repository", "url": "https://github.com/pr3tack/pr3tack" },
+    { "label": "PR3TACK Website", "url": "https://pr3tack.org" }
+  ],
+  "showTacticRowBackground": true,
+  "tacticRowBackground": "#1a1a2e",
+  "selectTechniquesAcrossTactics": false,
+  "selectSubtechniquesWithParent": false,
+  "selectVisibleTechniques": false
+}
