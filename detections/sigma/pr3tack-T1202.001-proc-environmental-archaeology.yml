@@ -1,0 +1,64 @@
+title: PR3TACK T1202.001 — Cross-PID /proc/environ Access — Credential Harvesting via procfs
+id: d1b7f428-6e9c-4d5a-a3b8-7f1e4c2d9a83
+status: experimental
+description: >
+  Detects a process opening /proc/[pid]/environ for a PID that does not belong to its
+  own process group. In environments without hidepid=2 enforcement, this syscall pattern
+  allows a compromised process to read the full environment of any co-located process —
+  harvesting API keys, database credentials, OAuth tokens, and other secrets injected
+  as environment variables during container or service startup.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/T1202.001-proc-environmental-archaeology.md
+  - https://attack.mitre.org/techniques/T1552/
+  - https://man7.org/linux/man-pages/man5/proc.5.html
+author: PR3TACK
+date: 2026/05/19
+modified: 2026/05/19
+tags:
+  - attack.credential_access
+  - attack.t1552
+  - pr3tack.TA12
+  - pr3tack.T1202.001
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    type: 'PATH'
+    name|re: '^/proc/[0-9]+/environ$'
+  filter_self_access:
+    # Filter processes reading their own environ — expected and benign
+    # NOTE: Implement cross-field correlation in your SIEM to compare
+    # the PID in the path against the accessing process PID (field: pid)
+    name|re: '^/proc/self/environ$'
+  filter_monitoring_tools:
+    exe|contains:
+      - '/usr/bin/ps'
+      - '/usr/bin/top'
+      - '/usr/bin/htop'
+      - '/usr/bin/python'
+      - '/opt/datadog-agent'
+      - '/opt/newrelic'
+      - '/usr/local/bin/node_exporter'
+      - '/usr/bin/docker'
+      - '/usr/bin/crictl'
+      - '/usr/local/bin/kubelet'
+  condition: selection and not filter_self_access and not filter_monitoring_tools
+falsepositives:
+  - System monitoring tools (ps, top, htop, Datadog Agent, New Relic, Prometheus node_exporter)
+  - Container runtime introspection (Docker inspect, crictl inspect)
+  - Authorised security scanning tools performing process enumeration
+  - Root-owned system health check scripts
+level: high
+fields:
+  - pid
+  - ppid
+  - uid
+  - gid
+  - exe
+  - ppid_exe
+  - name
+  - comm
+  - key
+  - node
+  - ses

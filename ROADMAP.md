@@ -2,36 +2,80 @@
 
 ---
 
-## Phase 1 – Foundation
+## Phase 1 — Foundation `v0.1`
 
-- [ ] Seed Matrix (v0.1)
-- [ ] Core technique structure
-- [ ] Contribution guidelines
-- [ ] Initial detections
+> Establishing the core framework, seed technique set, and detection library ahead of the FIRST Conference 2026 launch.
 
----
-
-## Phase 2 – Expansion
-
-- [ ] Community onboarding
-- [ ] Technique coverage expansion
-- [ ] Detection engineering library
-- [ ] Hunting playbooks
+- [x] Core technique structure and templates
+- [x] Seed matrix — 11 techniques across 4 tactics (TA01, TA02, TA06, TA12)
+- [x] Detection library — rules, analytics, and hunting queries for all techniques
+- [x] SIGMA-compatible standalone detection rules (`detections/sigma/`)
+- [x] ATT&CK Navigator layer (`navigator/pr3tack-layer.json`)
+- [x] Contribution guidelines (`CONTRIBUTING.md`)
+- [ ] Community onboarding — Expression of Interest process live
+- [ ] Official release — **FIRST Conference 2026, Denver, Colorado**
 
 ---
 
-## Phase 3 – Operationalisation
+## Phase 2 — Expansion `v0.2`
 
-- [ ] Navigator (interactive)
-- [ ] API / export formats
-- [ ] SIEM integrations
-- [ ] Detection-as-code examples
+> Growing the technique set and detection library through community contributions.
+
+- [ ] Technique coverage expansion — target 30+ techniques across 8+ tactics
+- [ ] Additional tactics: Initial Access (TA03), Execution (TA04), Persistence (TA05), Defense Evasion (TA07)
+- [ ] Detection engineering library growth — 30+ SIGMA rules
+- [ ] Hunting playbook expansion — structured hunt packages per tactic
+- [ ] Community working groups — tactic-specific contributor groups
+- [ ] Peer review pipeline — structured technique review process
 
 ---
 
-## Phase 4 – Maturity
+## Phase 3 — Operationalisation `v0.3`
 
-- [ ] Industry adoption
-- [ ] Research publications
-- [ ] Conference integrations
-- [ ] Training material
+> Making PR3TACK directly usable in security operations tooling.
+
+- [ ] Navigator — hosted interactive matrix at navigator.pr3tack.org
+- [ ] Detection-as-code examples — Terraform/IaC for deploying PR3TACK detections
+- [ ] SIEM integration packages — Splunk ES, Microsoft Sentinel, Elastic SIEM
+- [ ] API — machine-readable technique and detection export
+- [ ] STIX/TAXII export — for threat intel platform integration
+- [ ] CI/CD integration — GitHub Actions for SIGMA rule validation on PRs
+
+---
+
+## Phase 4 — Maturity `v1.0`
+
+> Establishing PR3TACK as a recognised, cited framework in the security community.
+
+- [ ] Industry adoption — integrations with major SIEM and TIP vendors
+- [ ] Research publications — peer-reviewed analysis of PR3TACK technique coverage
+- [ ] Conference integrations — workshops and exercises at FIRST, DEF CON, RSA
+- [ ] Training material — detection engineering courses aligned to PR3TACK
+- [ ] Versioned releases — stable, citable framework versions with changelogs
+- [ ] Attribution model — recognising community contributors formally
+
+---
+
+## Technique Coverage Target
+
+| Tactic | v0.1 (current) | v0.2 target | v1.0 target |
+|---|---|---|---|
+| TA01 Reconnaissance | 5 | 8 | 15 |
+| TA02 Resource Development | 4 | 6 | 12 |
+| TA03 Initial Access | 0 | 4 | 10 |
+| TA04 Execution | 0 | 4 | 10 |
+| TA05 Persistence | 0 | 4 | 10 |
+| TA06 Supply Chain Preparation | 1 | 4 | 8 |
+| TA07 Defense Evasion | 0 | 4 | 10 |
+| TA08 Credential Access | 0 | 3 | 8 |
+| TA09 Discovery | 0 | 3 | 8 |
+| TA10 Collection | 0 | 3 | 8 |
+| TA11 Command & Control | 0 | 3 | 8 |
+| TA12 Unix Contextual Stealth | 2 | 4 | 8 |
+| **Total** | **12** | **50** | **115** |
+
+---
+
+> PR3TACK will be officially launched at **FIRST Conference 2026 — Denver, Colorado**
+>
+> 📩 **join@pr3tack.org**
