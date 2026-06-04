@@ -44,8 +44,8 @@ Then load `navigator/pr3tack-layer.json` via **Open Existing Layer → Upload fr
 |---|---|
 | 🔴 Dark Red `#e84a4a` | Critical / High response priority |
 | 🟠 Orange `#e8724a` | Medium response priority |
-| 🟣 Purple `#9b59b6` | Resource Development tactic (TA02) |
-| 🟢 Green `#2ecc71` | Unix Contextual Stealth tactic (TA12) |
+| 🟣 Purple `#9b59b6` | Resource Development tactic (PT02) |
+| 🟢 Green `#2ecc71` | Unix Contextual Stealth tactic (PT12) |
 
 ---
 
@@ -53,18 +53,18 @@ Then load `navigator/pr3tack-layer.json` via **Open Existing Layer → Upload fr
 
 | PR3TACK ID | Name | MITRE Mapping | Priority |
 |---|---|---|---|
-| T1012.001 | SaaS Tenant Footprinting | T1595 Active Scanning | Medium |
-| T1015.001 | CSPM Signature Leakage | T1590 Gather Victim Network Info | Medium |
-| T1016.001 | SaaS App-to-App Permission Mining | T1526 Cloud Service Discovery | High |
-| T1018.001 | Identity Role Squatting Prep | T1078.004 Valid Accounts: Cloud | Critical |
-| T1101.001 | Vector Database Reconnaissance | T1213 Data from Info Repositories | High |
-| T1025.001 | AI-Generated Persona Synthesis | T1585 Establish Accounts | Medium |
-| T1025.002 | Automated Social Proofing | T1585 Establish Accounts | Medium |
-| T1028.001 | Cloud Account Incubation | T1583 Acquire Infrastructure | Medium |
-| T1103.001 | LLM Mirroring & Local Jailbreak Prep | T1587 Develop Capabilities | Critical |
-| T1061.001 | Dependency Confusion Probing | T1195 Supply Chain Compromise | Critical |
-| T1201.001 | Over-Mounting Cloaking | T1564 Hide Artifacts | High |
-| T1202.001 | /proc Environmental Archaeology | T1552 Unsecured Credentials | High |
+| PT01.001 | SaaS Tenant Footprinting | T1595 Active Scanning | Medium |
+| PT01.002 | CSPM Signature Leakage | T1590 Gather Victim Network Info | Medium |
+| PT01.003 | SaaS App-to-App Permission Mining | T1526 Cloud Service Discovery | High |
+| PT01.004 | Identity Role Squatting Prep | T1078.004 Valid Accounts: Cloud | Critical |
+| PT01.005 | Vector Database Reconnaissance | T1213 Data from Info Repositories | High |
+| PT02.001 | AI-Generated Persona Synthesis | T1585 Establish Accounts | Medium |
+| PT02.002 | Automated Social Proofing | T1585 Establish Accounts | Medium |
+| PT02.003 | Cloud Account Incubation | T1583 Acquire Infrastructure | Medium |
+| PT02.004 | LLM Mirroring & Local Jailbreak Prep | T1587 Develop Capabilities | Critical |
+| PT06.001 | Dependency Confusion Probing | T1195 Supply Chain Compromise | Critical |
+| PT12.001 | Over-Mounting Cloaking | T1564 Hide Artifacts | High |
+| PT12.002 | /proc Environmental Archaeology | T1552 Unsecured Credentials | High |
 
 ---
 

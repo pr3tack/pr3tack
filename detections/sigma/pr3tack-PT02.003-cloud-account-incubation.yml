@@ -1,0 +1,50 @@
+title: PR3TACK PT02.003 — Incubated Cloud Tenant Activation — Sudden Activity Spike
+id: f2d8b614-7a3e-4f9c-d5b1-2e7a4c8f6d39
+status: experimental
+description: >
+  Detects the incubation-to-activation transition of a cloud tenant — when a previously
+  low-activity cloud account (aged 30–365 days) suddenly transitions to high-volume or
+  targeted API activity against your infrastructure. This pattern is consistent with
+  cloud account incubation, where adversaries register and age accounts to build a warm
+  reputation before activating them for attack operations.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT02.003-cloud-account-incubation.md
+  - https://attack.mitre.org/techniques/T1583/
+author: PR3TACK
+date: 2026/05/19
+modified: 2026/05/19
+tags:
+  - attack.resource_development
+  - attack.t1583
+  - pr3tack.PT02
+  - pr3tack.PT02.003
+logsource:
+  category: proxy
+  product: generic
+detection:
+  selection:
+    # Requires cloud tenant metadata enrichment (account age, ASN)
+    # Integrate with GreyNoise, Spur, or cloud provider metadata APIs
+    cloud_tenant_age_days|gte: 30
+    cloud_tenant_age_days|lte: 365
+    is_free_tier_asn: true
+  timeframe: 24h
+  filter_known_tenants:
+    cloud_tenant_id|contains:
+      # Populate with your known-good partner/integration tenant IDs
+      - 'KNOWN_TENANT_ID_1'
+      - 'KNOWN_TENANT_ID_2'
+  condition: selection and not filter_known_tenants | count() by cloud_tenant_id > 500
+falsepositives:
+  - Legitimate new integrations from established cloud tenants launching a new service
+  - Seasonal traffic spikes from known partner tenants
+  - Load testing from cloud-hosted test infrastructure
+level: medium
+fields:
+  - cloud_tenant_id
+  - cloud_tenant_age_days
+  - cloud_provider
+  - source_asn
+  - request_count
+  - target_endpoints
+  - source_ip

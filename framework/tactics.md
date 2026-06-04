@@ -6,10 +6,10 @@ PR3TACK aligns techniques to tactical objectives similar to established models.
 
 | ID | Tactic | Description |
 |---|---|---|
-| TA01 | Reconnaissance | Pre-connection and identity-centric footprinting of the target's SaaS, cloud, and AI attack surface |
-| TA02 | Resource Development | Creation and incubation of trusted infrastructure, synthetic personas, and adversary capabilities |
-| TA06 | Supply Chain Preparation | Manipulation of the developer environment and dependency ecosystem prior to active compromise |
-| TA12 | Unix Contextual Stealth | Unix-specific techniques for stealthy staging and credential harvesting using OS-native primitives |
+| PT01 | Reconnaissance | Pre-connection and identity-centric footprinting of the target's SaaS, cloud, and AI attack surface |
+| PT02 | Resource Development | Creation and incubation of trusted infrastructure, synthetic personas, and adversary capabilities |
+| PT06 | Supply Chain Preparation | Manipulation of the developer environment and dependency ecosystem prior to active compromise |
+| PT12 | Unix Contextual Stealth | Unix-specific techniques for stealthy staging and credential harvesting using OS-native primitives |
 | — | Execution | Novel execution paths leveraging underexplored OS and application primitives |
 | — | Persistence | Unconventional persistence mechanisms not yet documented in established frameworks |
 | — | Privilege Escalation | Emerging privilege escalation paths in cloud, SaaS, and AI environments |
