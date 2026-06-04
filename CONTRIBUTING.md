@@ -55,31 +55,27 @@ No vague or purely theoretical ideas. The description must be precise enough tha
 
 ## ID Assignment
 
-PR3TACK uses a structured ID scheme modelled on — but independent from — MITRE ATT&CK.
+PR3TACK uses its own identifier scheme, independent of MITRE ATT&CK. Full details are documented in [`framework/methodology.md`](./framework/methodology.md).
 
 ### Tactic IDs
 
+Tactics use a `PT<NN>` prefix. Current active tactics:
+
 | ID | Tactic |
 |---|---|
-| TA01 | Reconnaissance |
-| TA02 | Resource Development |
-| TA06 | Supply Chain Preparation |
-| TA12 | Unix Contextual Stealth |
-| TA03 | Initial Access |
-| TA04 | Execution |
-| TA05 | Persistence |
-| TA07 | Defense Evasion |
-| TA08 | Credential Access |
-| TA09 | Discovery |
-| TA10 | Collection |
-| TA11 | Command & Control |
+| PT01 | Reconnaissance |
+| PT02 | Resource Development |
+| PT06 | Supply Chain Preparation |
+| PT12 | Unix Contextual Stealth |
+
+Gaps in numbering are intentional — they are reserved for tactics currently under development (Initial Access, Execution, Persistence, Defense Evasion, Credential Access, Discovery, Collection, C2).
 
 ### Technique IDs
 
-Technique IDs follow the format `TXXXX.XXX`:
-- The first four digits identify the base technique (`T1012`, `T1025`, etc.)
-- The three-digit suffix identifies the PR3TACK sub-technique (`.001`, `.002`, etc.)
-- For genuinely novel techniques with no MITRE analogue, IDs in the `T10XX` range are assigned by maintainers
+Technique IDs follow the format `PT<NN>.<NNN>`:
+- The tactic prefix (`PT01`, `PT02`, etc.) identifies the parent tactic
+- The three-digit suffix (`.001`, `.002`, etc.) is assigned sequentially within that tactic
+- PR3TACK IDs are **not** derived from or tied to MITRE ATT&CK technique numbers
 
 > **Do not self-assign an ID for a new technique.** Propose the technique with `ID: TBD` — maintainers will assign the canonical ID on review.
 
@@ -100,7 +96,7 @@ git checkout -b technique/your-technique-name
 ### Step 3 — Create the technique file
 Copy `templates/technique-template.md` to the appropriate tactic directory:
 ```bash
-cp templates/technique-template.md techniques/TA01-reconnaissance/TXXXX.XXX-your-technique-name.md
+cp templates/technique-template.md techniques/PT01-reconnaissance/PTXX.XXX-your-technique-name.md
 ```
 Use `TBD` as the ID until assigned by a maintainer.
 
@@ -108,20 +104,20 @@ Use `TBD` as the ID until assigned by a maintainer.
 Copy `templates/detection-template.md` to the appropriate detection subdirectory:
 ```bash
 # For rule-based detections (SIEM/EDR):
-cp templates/detection-template.md detections/rules/TXXXX.XXX-your-technique-name.md
+cp templates/detection-template.md detections/rules/PTXX.XXX-your-technique-name.md
 
 # For behavioural/statistical detections:
-cp templates/detection-template.md detections/analytics/TXXXX.XXX-your-technique-name.md
+cp templates/detection-template.md detections/analytics/PTXX.XXX-your-technique-name.md
 
 # For hypothesis-driven hunting:
-cp templates/detection-template.md detections/hunting/TXXXX.XXX-your-technique-name.md
+cp templates/detection-template.md detections/hunting/PTXX.XXX-your-technique-name.md
 ```
 
 ### Step 5 — Add a SIGMA YAML (strongly recommended)
 If your detection is rule-based, add a SIGMA-compatible `.yml` file to `detections/sigma/`:
 ```bash
-cp detections/sigma/pr3tack-T1012.001-saas-tenant-footprinting.yml \
-   detections/sigma/pr3tack-TXXXX.XXX-your-technique-name.yml
+cp detections/sigma/pr3tack-PT01.001-saas-tenant-footprinting.yml \
+   detections/sigma/pr3tack-PTXX.XXX-your-technique-name.yml
 ```
 
 SIGMA rules must:
@@ -144,12 +140,12 @@ Update the following files to include your technique:
 ### Step 7 — Submit a pull request
 ```bash
 git add .
-git commit -m "feat: add TXXXX.XXX — Your Technique Name"
+git commit -m "feat: add PTXX.XXX — Your Technique Name"
 git push origin technique/your-technique-name
 ```
 
 Open a PR against `main` with:
-- **Title:** `feat: add TXXXX.XXX — [Technique Name]`
+- **Title:** `feat: add PTXX.XXX — [Technique Name]`
 - **Description:** Brief summary of the technique, the MITRE gap it addresses, and the detection approach
 
 ---
@@ -159,17 +155,17 @@ Open a PR against `main` with:
 If you are adding or improving a detection for an **existing** technique:
 
 ```bash
-git checkout -b detection/TXXXX.XXX-detection-type
+git checkout -b detection/PTXX.XXX-detection-type
 ```
 
 Use `fix:` prefix in your commit message if improving an existing detection:
 ```bash
-git commit -m "fix: improve T1012.001 SIGMA rule to reduce false positives from EASM scanners"
+git commit -m "fix: improve PT01.001 SIGMA rule to reduce false positives from EASM scanners"
 ```
 
 Use `feat:` prefix if adding a net-new detection type (e.g., adding a hunt query for a technique that only has a rule):
 ```bash
-git commit -m "feat: add T1028.001 hunt query for aged cloud tenant infrastructure discovery"
+git commit -m "feat: add PT02.003 hunt query for aged cloud tenant infrastructure discovery"
 ```
 
 ---
@@ -210,11 +206,11 @@ PR3TACK uses [Conventional Commits](https://www.conventionalcommits.org/):
 
 | Type | Convention | Example |
 |---|---|---|
-| Technique | `TXXXX.XXX-kebab-case-name.md` | `T1012.001-saas-tenant-footprinting.md` |
-| Detection rule | `TXXXX.XXX-kebab-case-name.md` | `T1012.001-saas-tenant-footprinting.md` |
-| SIGMA YAML | `pr3tack-TXXXX.XXX-kebab-case-name.yml` | `pr3tack-T1012.001-saas-tenant-footprinting.yml` |
+| Technique | `PTXX.XXX-kebab-case-name.md` | `PT01.001-saas-tenant-footprinting.md` |
+| Detection rule | `PTXX.XXX-kebab-case-name.md` | `PT01.001-saas-tenant-footprinting.md` |
+| SIGMA YAML | `pr3tack-PTXX.XXX-kebab-case-name.yml` | `pr3tack-PT01.001-saas-tenant-footprinting.yml` |
 
-Directories are named `TAXX-tactic-name/` (e.g., `TA01-reconnaissance/`).
+Directories are named `PTXX-tactic-name/` (e.g., `PT01-reconnaissance/`).
 
 ---
 

@@ -7,7 +7,7 @@
 > Establishing the core framework, seed technique set, and detection library ahead of the FIRST Conference 2026 launch.
 
 - [x] Core technique structure and templates
-- [x] Seed matrix — 11 techniques across 4 tactics (TA01, TA02, TA06, TA12)
+- [x] Seed matrix — 11 techniques across 4 tactics (PT01, PT02, PT06, PT12)
 - [x] Detection library — rules, analytics, and hunting queries for all techniques
 - [x] SIGMA-compatible standalone detection rules (`detections/sigma/`)
 - [x] ATT&CK Navigator layer (`navigator/pr3tack-layer.json`)
@@ -60,18 +60,18 @@
 
 | Tactic | v0.1 (current) | v0.2 target | v1.0 target |
 |---|---|---|---|
-| TA01 Reconnaissance | 5 | 8 | 15 |
-| TA02 Resource Development | 4 | 6 | 12 |
+| PT01 Reconnaissance | 5 | 8 | 15 |
+| PT02 Resource Development | 4 | 6 | 12 |
 | TA03 Initial Access | 0 | 4 | 10 |
 | TA04 Execution | 0 | 4 | 10 |
 | TA05 Persistence | 0 | 4 | 10 |
-| TA06 Supply Chain Preparation | 1 | 4 | 8 |
+| PT06 Supply Chain Preparation | 1 | 4 | 8 |
 | TA07 Defense Evasion | 0 | 4 | 10 |
 | TA08 Credential Access | 0 | 3 | 8 |
 | TA09 Discovery | 0 | 3 | 8 |
 | TA10 Collection | 0 | 3 | 8 |
 | TA11 Command & Control | 0 | 3 | 8 |
-| TA12 Unix Contextual Stealth | 2 | 4 | 8 |
+| PT12 Unix Contextual Stealth | 2 | 4 | 8 |
 | **Total** | **12** | **50** | **115** |
 
 ---

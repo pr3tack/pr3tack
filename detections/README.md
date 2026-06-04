@@ -31,14 +31,14 @@ SIGMA-compatible, SIEM/EDR deployable detection rules.
 
 | Technique | Name | Tactic | Confidence |
 |---|---|---|---|
-| [T1012.001](./rules/T1012.001-saas-tenant-footprinting.md) | SaaS Tenant Footprinting — Unauthenticated Endpoint Enumeration | TA01 | Medium |
-| [T1015.001](./rules/T1015.001-cspm-signature-leakage.md) | CSPM Signature Leakage — Security Stack Fingerprinting via DNS/HTTP | TA01 | Medium |
-| [T1016.001](./rules/T1016.001-saas-app-to-app-permission-mining.md) | High-Privilege OAuth Consent Grant to Third-Party Application | TA01 | High |
-| [T1018.001](./rules/T1018.001-identity-role-squatting-prep.md) | Decommissioned IAM Role AssumeRole Attempt | TA01 | High |
-| [T1061.001](./rules/T1061.001-dependency-confusion-probing.md) | Public Registry Resolution of Internal Package Name | TA06 | High |
-| [T1103.001](./rules/T1103.001-llm-mirroring-local-jailbreak-prep.md) | LLM Prompt Injection and Jailbreak Attempt | TA02 | Medium |
-| [T1201.001](./rules/T1201.001-over-mounting-cloaking.md) | Anomalous tmpfs Mount Over Non-Standard Directory | TA12 | High |
-| [T1202.001](./rules/T1202.001-proc-environmental-archaeology.md) | Cross-PID /proc/environ Access — Credential Harvesting | TA12 | High |
+| [PT01.001](./rules/PT01.001-saas-tenant-footprinting.md) | SaaS Tenant Footprinting — Unauthenticated Endpoint Enumeration | PT01 | Medium |
+| [PT01.002](./rules/PT01.002-cspm-signature-leakage.md) | CSPM Signature Leakage — Security Stack Fingerprinting via DNS/HTTP | PT01 | Medium |
+| [PT01.003](./rules/PT01.003-saas-app-to-app-permission-mining.md) | High-Privilege OAuth Consent Grant to Third-Party Application | PT01 | High |
+| [PT01.004](./rules/PT01.004-identity-role-squatting-prep.md) | Decommissioned IAM Role AssumeRole Attempt | PT01 | High |
+| [PT06.001](./rules/PT06.001-dependency-confusion-probing.md) | Public Registry Resolution of Internal Package Name | PT06 | High |
+| [PT02.004](./rules/PT02.004-llm-mirroring-local-jailbreak-prep.md) | LLM Prompt Injection and Jailbreak Attempt | PT02 | Medium |
+| [PT12.001](./rules/PT12.001-over-mounting-cloaking.md) | Anomalous tmpfs Mount Over Non-Standard Directory | PT12 | High |
+| [PT12.002](./rules/PT12.002-proc-environmental-archaeology.md) | Cross-PID /proc/environ Access — Credential Harvesting | PT12 | High |
 
 ### Analytics — `analytics/`
 
@@ -46,9 +46,9 @@ Behavioural and statistical models for detecting adversary patterns that resist 
 
 | Technique | Name | Tactic | Confidence |
 |---|---|---|---|
-| [T1025.001](./analytics/T1025.001-ai-generated-persona-synthesis.md) | Synthetic Identity Anomaly Scoring | TA02 | Medium |
-| [T1025.002](./analytics/T1025.002-automated-social-proofing.md) | Coordinated Inauthentic Behaviour Detection | TA02 | Medium |
-| [T1028.001](./analytics/T1028.001-cloud-account-incubation.md) | New Tenant Behavioural Transition Detection | TA02 | Medium |
+| [PT02.001](./analytics/PT02.001-ai-generated-persona-synthesis.md) | Synthetic Identity Anomaly Scoring | PT02 | Medium |
+| [PT02.002](./analytics/PT02.002-automated-social-proofing.md) | Coordinated Inauthentic Behaviour Detection | PT02 | Medium |
+| [PT02.003](./analytics/PT02.003-cloud-account-incubation.md) | New Tenant Behavioural Transition Detection | PT02 | Medium |
 
 ### Hunting — `hunting/`
 
@@ -56,8 +56,8 @@ Hypothesis-driven threat hunting queries for proactive adversary discovery.
 
 | Technique | Name | Tactic | Confidence |
 |---|---|---|---|
-| [T1101.001](./hunting/T1101.001-vector-database-reconnaissance.md) | Embedding Space Probing — Vector DB Reconnaissance Hunt | TA01 | Medium |
-| [T1028.001](./hunting/T1028.001-cloud-account-incubation.md) | Aged Tenant Infrastructure Discovery | TA02 | Medium |
+| [PT01.005](./hunting/PT01.005-vector-database-reconnaissance.md) | Embedding Space Probing — Vector DB Reconnaissance Hunt | PT01 | Medium |
+| [PT02.003](./hunting/PT02.003-cloud-account-incubation.md) | Aged Tenant Infrastructure Discovery | PT02 | Medium |
 
 ---
 
@@ -65,18 +65,18 @@ Hypothesis-driven threat hunting queries for proactive adversary discovery.
 
 | Technique | Rule | Analytic | Hunt |
 |---|---|---|---|
-| T1012.001 SaaS Tenant Footprinting | ✅ | | |
-| T1015.001 CSPM Signature Leakage | ✅ | | |
-| T1016.001 SaaS App-to-App Permission Mining | ✅ | | |
-| T1018.001 Identity Role Squatting Prep | ✅ | | |
-| T1101.001 Vector Database Reconnaissance | | | ✅ |
-| T1025.001 AI-Generated Persona Synthesis | | ✅ | |
-| T1025.002 Automated Social Proofing | | ✅ | |
-| T1028.001 Cloud Account Incubation | | ✅ | ✅ |
-| T1061.001 Dependency Confusion Probing | ✅ | | |
-| T1103.001 LLM Mirroring & Local Jailbreak Prep | ✅ | | |
-| T1201.001 Over-Mounting Cloaking | ✅ | | |
-| T1202.001 /proc Environmental Archaeology | ✅ | | |
+| PT01.001 SaaS Tenant Footprinting | ✅ | | |
+| PT01.002 CSPM Signature Leakage | ✅ | | |
+| PT01.003 SaaS App-to-App Permission Mining | ✅ | | |
+| PT01.004 Identity Role Squatting Prep | ✅ | | |
+| PT01.005 Vector Database Reconnaissance | | | ✅ |
+| PT02.001 AI-Generated Persona Synthesis | | ✅ | |
+| PT02.002 Automated Social Proofing | | ✅ | |
+| PT02.003 Cloud Account Incubation | | ✅ | ✅ |
+| PT06.001 Dependency Confusion Probing | ✅ | | |
+| PT02.004 LLM Mirroring & Local Jailbreak Prep | ✅ | | |
+| PT12.001 Over-Mounting Cloaking | ✅ | | |
+| PT12.002 /proc Environmental Archaeology | ✅ | | |
 
 ---
 
