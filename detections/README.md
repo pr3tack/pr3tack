@@ -82,7 +82,7 @@ Hypothesis-driven threat hunting queries for proactive adversary discovery.
 | PT01.003 SaaS App-to-App Permission Mining | ✅ | | ✅ | ✅ |
 | PT01.004 Identity Role Squatting Prep | ✅ | | ✅ | ✅ |
 | PT01.005 Vector Database Reconnaissance | ✅ | | ✅ | ✅ |
-| PT02.001 AI-Generated Persona Synthesis | | ✅ | ✅ | |
+| PT02.001 AI-Generated Persona Synthesis | | ✅ | ✅ | ✅ |
 | PT02.002 Automated Social Proofing | | ✅ | | |
 | PT02.003 Cloud Account Incubation | ✅ | ✅ | ✅ | ✅ |
 | PT02.004 LLM Mirroring & Local Jailbreak Prep | ✅ | ✅ | ✅ | ✅ |
