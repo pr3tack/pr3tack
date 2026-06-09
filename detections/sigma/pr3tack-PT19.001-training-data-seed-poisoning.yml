@@ -1,0 +1,56 @@
+title: PR3TACK PT19.001 — Training-Data Seed Poisoning — Seed Dataset Unauthorised Modification
+id: b8c9d0e1-f2a3-4567-bcde-678901234567
+status: experimental
+description: >
+  Detects unauthorised modification of ML training seed dataset files by processes
+  or identities outside the approved data engineering pipeline. Seed dataset
+  poisoning injects a small number of carefully crafted samples that propagate
+  backdoors or bias through all subsequent training, fine-tuning, and distillation
+  steps — embedding adversary-controlled model behaviour that survives model updates.
+  Requires FIM coverage of dataset storage paths.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/PT19.001-training-data-seed-poisoning.md
+  - https://atlas.mitre.org/techniques/AML.T0020
+  - https://arxiv.org/abs/1708.06733
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.ml_attack_staging
+  - pr3tack.PT19
+  - pr3tack.PT19.001
+logsource:
+  category: file_event
+  product: generic
+detection:
+  selection:
+    target_filename|contains:
+      - '/seed_data/'
+      - '/training_corpus/'
+      - '/foundation_dataset/'
+      - '/pretrain_data/'
+    event_type:
+      - 'write'
+      - 'modify'
+      - 'delete'
+  filter_approved_pipeline:
+    process_name|contains:
+      - 'data-pipeline'
+      - 'airflow'
+      - 'prefect'
+      - 'spark'
+      - 'dvc'
+    user_identity|in:
+      - 'data-engineering-sa'
+      - 'ml-pipeline-sa'
+  condition: selection and not filter_approved_pipeline
+falsepositives:
+  - Data engineers performing manual dataset curation outside the pipeline
+  - Emergency data quality fixes by authorised personnel
+level: critical
+fields:
+  - target_filename
+  - process_name
+  - user_identity
+  - modification_type
+  - file_size_delta
+  - hostname

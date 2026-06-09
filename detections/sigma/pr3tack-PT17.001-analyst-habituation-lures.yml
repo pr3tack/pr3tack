@@ -1,0 +1,39 @@
+title: PR3TACK PT17.001 — Analyst Habituation Lures — Single Source Repeated Alert-Triggering Events
+id: f6a7b8c9-d0e1-2345-fabc-456789012345
+status: experimental
+description: >
+  Detects a single source IP or identity generating identical events that trigger
+  the same detection rule at regular intervals — characteristic of deliberate
+  habituation lure generation rather than organic activity. Adversaries generate
+  high volumes of benign events that match a specific detection signature over
+  days or weeks, causing analysts to normalise dismissing that alert type. When
+  the adversary subsequently executes a genuine attack using the same signature,
+  the habituated analysts dismiss it as another false positive.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT17.001-analyst-habituation-lures.md
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.defense_evasion
+  - pr3tack.PT17
+  - pr3tack.PT17.001
+logsource:
+  category: application
+  product: soar_platform
+detection:
+  selection:
+    event_type: 'alert_triggered'
+    closure_status: 'false_positive'
+  timeframe: 24h
+  condition: selection | count() by src_ip, alert_rule_id > 10
+falsepositives:
+  - Misconfigured detection rules generating persistent false positives from legitimate sources
+  - Noisy scan sources that legitimately trigger the same rule repeatedly
+level: medium
+fields:
+  - src_ip
+  - alert_rule_id
+  - alert_rule_name
+  - trigger_count_24h
+  - false_positive_count_7d
+  - analyst_closure_user

@@ -1,0 +1,47 @@
+title: PR3TACK PT08.001 — Bluetooth HID Covert Channels — Unknown HID Device Pairing
+id: a3b4c5d6-e7f8-9012-abcd-123456789012
+status: experimental
+description: >
+  Detects pairing of a Bluetooth HID-class device (keyboard, mouse) whose MAC
+  address is not present in the approved Bluetooth peripheral inventory. Adversaries
+  establish covert C2 channels by pairing proximity-operated Bluetooth HID devices
+  with compromised endpoints, using the HID report mechanism to exchange commands
+  and responses over Bluetooth — bypassing all network-based security controls.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/PT08.001-bluetooth-hid-covert-channels.md
+  - https://www.mousejack.com/
+  - https://csrc.nist.gov/publications/detail/sp/800-121/rev-2/final
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.command_and_control
+  - attack.t1011
+  - pr3tack.PT08
+  - pr3tack.PT08.001
+logsource:
+  category: application
+  product: bluetooth_management
+detection:
+  selection:
+    event_type: 'bluetooth_device_paired'
+    device_class|contains:
+      - 'HID'
+      - '0x000540'  # Keyboard
+      - '0x000580'  # Mouse
+  filter_approved:
+    device_mac|in:
+      - 'APPROVED_MAC_1'
+      - 'APPROVED_MAC_2'
+      # Populate from MDM Bluetooth inventory
+  condition: selection and not filter_approved
+falsepositives:
+  - IT helpdesk replacing approved peripherals not yet in inventory
+  - New employees using personal approved peripherals before MDM enrollment
+level: medium
+fields:
+  - device_mac
+  - device_name
+  - device_class
+  - pairing_timestamp
+  - hostname
+  - user

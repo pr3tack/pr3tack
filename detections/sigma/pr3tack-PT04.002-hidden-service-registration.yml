@@ -1,0 +1,42 @@
+title: PR3TACK PT04.002 — Hidden Service Registration — New WMI Permanent Event Subscription
+id: f2c8e374-5b1d-4a9c-b847-6e2f8c4d3a15
+status: experimental
+description: >
+  Detects creation of a new WMI permanent event subscription — a persistence
+  mechanism that survives reboots, OS updates, and is invisible to standard
+  service enumeration. Adversaries use WMI subscriptions to register hidden
+  persistence that restarts their payload on specific system events (logon,
+  USB connection, timer) without appearing in the Windows Services list.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT04.002-hidden-service-registration.md
+  - https://www.mandiant.com/resources/reports
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.persistence
+  - attack.t1546.003
+  - pr3tack.PT04
+  - pr3tack.PT04.002
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection_filter:
+    EventID: 19  # WmiEventFilter
+  selection_consumer:
+    EventID: 20  # WmiEventConsumer
+  selection_binding:
+    EventID: 21  # WmiEventConsumerToFilter
+  condition: selection_filter or selection_consumer or selection_binding
+falsepositives:
+  - Legitimate security products and monitoring agents that use WMI subscriptions
+  - Windows Management tools with documented WMI subscription use
+level: high
+fields:
+  - EventID
+  - EventNamespace
+  - Name
+  - Query
+  - Type
+  - Destination
+  - HostName

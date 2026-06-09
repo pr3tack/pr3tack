@@ -1,0 +1,46 @@
+title: PR3TACK PT19.002 — Model Output Injection — Systematic Input Perturbation (Decision Boundary Probing)
+id: c9d0e1f2-a3b4-5678-cdef-789012345678
+status: experimental
+description: >
+  Detects a single API client submitting batches of highly similar inputs with
+  systematic minor variations to an ML model endpoint — the signature of black-box
+  decision boundary probing. Adversaries iterate over perturbed inputs to identify
+  those that cause the model to produce adversary-desired outputs (e.g., approve a
+  fraudulent transaction, suppress a security alert, approve a malicious content
+  submission) without requiring access to model internals. Requires semantic
+  similarity scoring at the API gateway layer.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/PT19.002-model-output-injection.md
+  - https://atlas.mitre.org/techniques/AML.T0043
+  - https://arxiv.org/abs/1602.02697
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.ml_attack_staging
+  - pr3tack.PT19
+  - pr3tack.PT19.002
+logsource:
+  category: application
+  product: ml_api_gateway
+detection:
+  selection:
+    event_type: 'inference_request'
+    mean_pairwise_similarity|gt: 0.90
+    request_count|gt: 20
+  timeframe: 1h
+  filter_approved_clients:
+    client_id|in:
+      - 'approved-batch-client-1'
+      - 'approved-batch-client-2'
+  condition: selection and not filter_approved_clients
+falsepositives:
+  - Legitimate batch inference jobs processing very similar documents (e.g., form processing)
+  - A/B testing pipelines comparing model responses to near-identical prompts
+level: high
+fields:
+  - client_id
+  - model_endpoint
+  - request_count_1h
+  - mean_pairwise_similarity
+  - source_ip
+  - automated_action_triggered

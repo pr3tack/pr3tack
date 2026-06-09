@@ -1,0 +1,55 @@
+title: PR3TACK PT09.001 — Browser Extension Enumeration via IPC — Non-Browser Process Reading Extension Manifests
+id: b4c5d6e7-f8a9-0123-bcde-234567890123
+status: experimental
+description: >
+  Detects a non-browser process reading multiple browser extension manifest.json
+  files in rapid succession — consistent with automated browser extension enumeration
+  via filesystem or IPC access. Adversaries enumerate installed extensions to
+  identify high-value targets (password managers, SSO extensions, MFA helpers,
+  corporate VPN plugins) for subsequent targeted exploitation or credential
+  harvesting without requiring browser-level code execution.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/PT09.001-browser-extension-enumeration-ipc.md
+  - https://developer.chrome.com/docs/extensions/mv3/manifest/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.discovery
+  - attack.t1176
+  - pr3tack.PT09
+  - pr3tack.PT09.001
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    EventID:
+      - 11  # FileCreate
+      - 15  # FileCreateStreamHash
+    TargetFilename|contains:
+      - '\Extensions\'
+      - 'manifest.json'
+    TargetFilename|contains:
+      - '\Google\Chrome\User Data\'
+      - '\Mozilla\Firefox\Profiles\'
+      - '\Microsoft\Edge\User Data\'
+  filter_browsers:
+    Image|contains:
+      - 'chrome.exe'
+      - 'firefox.exe'
+      - 'msedge.exe'
+      - 'brave.exe'
+      - 'Code.exe'
+      - 'SearchIndexer.exe'
+  timeframe: 60s
+  condition: selection and not filter_browsers | count() by Image > 3
+falsepositives:
+  - Security scanning tools performing browser extension inventory
+  - Backup agents including browser profile directories in scope
+level: medium
+fields:
+  - Image
+  - ProcessId
+  - TargetFilename
+  - HostName
+  - User

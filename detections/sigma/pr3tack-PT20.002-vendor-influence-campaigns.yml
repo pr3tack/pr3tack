@@ -1,0 +1,40 @@
+title: PR3TACK PT20.002 — Vendor-Influence Campaigns — New SaaS Integration Accessing Excess Scopes
+id: e3f4a5b6-c7d8-9012-efab-123456789012
+status: experimental
+description: >
+  Detects a recently-approved SaaS integration accessing data scopes or API
+  resources beyond those declared in the approval documentation. Adversaries
+  orchestrate influence campaigns to coerce adoption of SaaS products they
+  control or have compromised, then use the approved integration's API access
+  to exfiltrate data or establish persistent access. Excess scope access is the
+  most actionable post-adoption signal of a malicious vendor influence campaign.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/PT20.002-vendor-influence-campaigns.md
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.collection
+  - attack.t1530
+  - pr3tack.PT20
+  - pr3tack.PT20.002
+logsource:
+  category: application
+  product: saas_integration_platform
+detection:
+  selection:
+    event_type: 'api_scope_access'
+    scope_in_approved_list: false
+    integration_approval_age_days|lt: 180
+  condition: selection
+falsepositives:
+  - Integrations that legitimately require additional scopes discovered post-approval
+  - Vendor updates that add new API features using existing OAuth grants
+level: high
+fields:
+  - integration_name
+  - vendor_name
+  - excess_scope_accessed
+  - declared_scopes
+  - integration_approval_date
+  - api_call_timestamp
+  - data_volume_bytes

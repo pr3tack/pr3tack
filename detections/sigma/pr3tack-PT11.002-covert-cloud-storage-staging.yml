@@ -1,0 +1,54 @@
+title: PR3TACK PT11.002 — Covert Cloud Storage Staging — Archive Upload to Non-Backup S3 Bucket
+id: d4a8c396-1f5b-4e9d-f485-8e6c1a4d3b79
+status: experimental
+description: >
+  Detects upload of archive or encrypted files to S3 buckets not normally used
+  for archive storage — a staging indicator for covert exfiltration using the
+  target organisation's own cloud storage. By staging exfiltrated data in the
+  victim's own trusted cloud storage before retrieval via an external identity,
+  adversaries bypass external upload anomaly detection and leverage pre-existing
+  authorised egress paths.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT11.002-covert-cloud-storage-staging.md
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/cloudtrail-logging.html
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.exfiltration
+  - attack.t1567.002
+  - pr3tack.PT11
+  - pr3tack.PT11.002
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    eventName: 'PutObject'
+    requestParameters.key|endswith:
+      - '.zip'
+      - '.tar.gz'
+      - '.tar.bz2'
+      - '.7z'
+      - '.enc'
+      - '.pgp'
+      - '.gpg'
+      - '.age'
+  filter_backup_buckets:
+    requestParameters.bucketName|contains:
+      - 'backup'
+      - 'archive'
+      - 'dr'
+      - 'disaster-recovery'
+      - 'snapshots'
+  condition: selection and not filter_backup_buckets
+falsepositives:
+  - Ad-hoc archive uploads by developers to general-purpose S3 buckets
+  - CI/CD pipelines uploading build artifacts in archive format
+  - Legitimate data migration projects
+level: medium
+fields:
+  - requestParameters.bucketName
+  - requestParameters.key
+  - userIdentity.arn
+  - sourceIPAddress
+  - awsRegion

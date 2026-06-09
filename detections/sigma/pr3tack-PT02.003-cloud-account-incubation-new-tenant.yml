@@ -1,0 +1,109 @@
+title: PR3TACK PT02.003 — Cloud Account Incubation — New Tenant Anomalous Risk Signal Cluster
+id: c5f1a347-8d2e-4b9c-e731-4a8c6f3e1b52
+status: experimental
+description: >
+  Detects inbound API or authentication requests from cloud tenants that are newly registered
+  (< 90 days old) and exhibit additional risk signals consistent with cloud account incubation:
+  MFA not enabled, or unusual originating region, or first-ever interaction with the target.
+  Adversaries register and incubate free-tier cloud accounts to build a warm reputation score
+  before repurposing them as attack infrastructure. Newly created accounts with no MFA are a
+  particularly strong signal as legitimate integrations almost always enforce MFA at the tenant level.
+  Requires cloud tenant metadata enrichment (account age, MFA status) from your cloud provider API.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT02.003-cloud-account-incubation.md
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/PT02.003-cloud-account-incubation.md
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/PT02.003-cloud-account-incubation.md
+  - https://attack.mitre.org/techniques/T1583/
+author: PR3TACK
+date: 2026/06/09
+modified: 2026/06/09
+tags:
+  - attack.resource_development
+  - attack.t1583
+  - attack.t1583.006
+  - pr3tack.PT02
+  - pr3tack.PT02.003
+logsource:
+  category: cloud
+  product: generic
+detection:
+  selection:
+    event_type:
+      - 'api_call'
+      - 'oauth_token_request'
+      - 'iam_assume_role'
+      - 'federation_login'
+    tenant_age_days|lt: 90
+    mfa_enabled: false
+  filter_known:
+    # Populate with your approved integration tenant IDs
+    cloud_tenant_id|contains:
+      - 'KNOWN_TENANT_ID_1'
+      - 'KNOWN_TENANT_ID_2'
+  condition: selection and not filter_known
+falsepositives:
+  - Legitimate new vendor or partner onboarding from recently created cloud projects
+  - Developer sandbox accounts used in authorised POC integrations
+  - New internal service accounts provisioned from recently created cloud projects without MFA (remediate)
+level: medium
+fields:
+  - cloud_tenant_id
+  - tenant_age_days
+  - mfa_enabled
+  - event_type
+  - source_ip
+  - source_region
+  - cloud_provider
+---
+title: PR3TACK PT02.003 — Cloud Account Incubation — First-Seen Tenant Issuing Privileged API Calls
+id: d9e2b485-1c7f-4e3a-f864-5b9d7a2c3e18
+status: experimental
+description: >
+  Detects the first-ever appearance of a cloud tenant ID in API gateway or IAM audit logs
+  combined with high-privilege operation types. A warmed incubated account making privileged
+  calls on its very first interaction is a strong indicator of repurposed attack infrastructure —
+  legitimate integrations almost never issue high-privilege operations on initial contact without
+  a prior onboarding and testing phase.
+  Requires first-seen enrichment (historical tenant ID tracking) in your SIEM or data pipeline.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT02.003-cloud-account-incubation.md
+  - https://attack.mitre.org/techniques/T1583/
+author: PR3TACK
+date: 2026/06/09
+modified: 2026/06/09
+tags:
+  - attack.resource_development
+  - attack.t1583
+  - attack.t1583.006
+  - pr3tack.PT02
+  - pr3tack.PT02.003
+logsource:
+  category: cloud
+  product: generic
+detection:
+  selection:
+    cloud_tenant_id|first_seen: true
+    event_type:
+      - 'iam_assume_role'
+      - 'iam_create_user'
+      - 'iam_attach_policy'
+      - 's3_get_object'
+      - 'secretsmanager_get_secret_value'
+      - 'kms_decrypt'
+      - 'sts_get_caller_identity'
+  filter_known:
+    cloud_tenant_id|contains:
+      - 'KNOWN_TENANT_ID_1'
+      - 'KNOWN_TENANT_ID_2'
+  condition: selection and not filter_known
+falsepositives:
+  - New legitimate partner tenants granted privileged access on first use via pre-approved onboarding
+  - Automated provisioning pipelines using freshly created service accounts with documented justification
+level: high
+fields:
+  - cloud_tenant_id
+  - tenant_age_days
+  - event_type
+  - source_ip
+  - source_region
+  - cloud_provider

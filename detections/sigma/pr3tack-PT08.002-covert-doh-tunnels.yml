@@ -1,0 +1,58 @@
+title: PR3TACK PT08.002 — Covert DNS-over-HTTPS Tunnel — Direct Connection to DoH Provider
+id: b6e4a192-8d5f-4c7b-d263-9c4a8f6e3b57
+status: experimental
+description: >
+  Detects endpoints making direct HTTPS connections to known DNS-over-HTTPS (DoH)
+  provider IP addresses. In environments where DNS resolution is enforced through
+  internal recursive resolvers, direct connections to public DoH providers bypass
+  DNS monitoring controls and may indicate DoH-tunnelled C2 traffic. DoH tunnelling
+  encodes C2 commands in DNS TXT/CNAME queries transmitted over HTTPS to legitimate
+  DoH resolvers, making the traffic indistinguishable from normal encrypted DNS.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT08.002-covert-dns-over-https-tunnels.md
+  - https://datatracker.ietf.org/doc/html/rfc8484
+  - https://github.com/yarrick/iodine
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.command_and_control
+  - attack.t1071.004
+  - pr3tack.PT08
+  - pr3tack.PT08.002
+logsource:
+  category: network_connection
+  product: windows
+detection:
+  selection:
+    DestinationIp:
+      - '1.1.1.1'
+      - '1.0.0.1'
+      - '8.8.8.8'
+      - '8.8.4.4'
+      - '9.9.9.9'
+      - '149.112.112.112'
+      - '208.67.222.222'
+      - '208.67.220.220'
+      - '94.140.14.14'
+      - '94.140.15.15'
+    DestinationPort: 443
+  filter_browsers:
+    Image|contains:
+      - 'chrome.exe'
+      - 'firefox.exe'
+      - 'msedge.exe'
+      - 'brave.exe'
+      - 'safari'
+  condition: selection and not filter_browsers
+falsepositives:
+  - Applications with built-in DoH support that is policy-approved
+  - Security tools that use DoH for DNS resolution
+  - Browsers where DoH is explicitly enabled by policy
+level: medium
+fields:
+  - DestinationIp
+  - DestinationPort
+  - Image
+  - ProcessId
+  - HostName
+  - User

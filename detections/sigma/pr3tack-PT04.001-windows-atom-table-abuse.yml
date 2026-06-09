@@ -1,0 +1,48 @@
+title: PR3TACK PT04.001 — Windows Atom Table Abuse — High-Entropy Atom Registration
+id: b2c3d4e5-f6a7-8901-bcde-f12345678901
+status: experimental
+description: >
+  Detects calls to GlobalAddAtom() registering strings with anomalously high
+  Shannon entropy or excessive length — consistent with base64-encoded shellcode
+  or payload storage via Windows Global Atom Table abuse. Legitimate atom names
+  are short, human-readable strings; high-entropy long strings indicate covert
+  payload staging. The Global Atom Table persists across process termination,
+  enabling in-session persistence without filesystem artefacts.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT04.001-abuse-of-windows-atom-tables.md
+  - https://blog.ensilo.com/atommodbing-brand-new-code-injection-for-windows
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.persistence
+  - attack.t1055
+  - pr3tack.PT04
+  - pr3tack.PT04.001
+logsource:
+  category: process_access
+  product: windows
+detection:
+  selection:
+    api_call: 'GlobalAddAtom'
+    atom_string_length|gt: 64
+    atom_string_entropy|gt: 4.5
+  filter_known_good:
+    Image|contains:
+      - 'explorer.exe'
+      - 'chrome.exe'
+      - 'firefox.exe'
+      - 'msedge.exe'
+      - 'Teams.exe'
+  condition: selection and not filter_known_good
+falsepositives:
+  - Applications using atom tables for legitimate IPC with long structured strings
+  - Automation frameworks using atom tables for inter-process state sharing
+level: high
+fields:
+  - Image
+  - ProcessId
+  - atom_string_length
+  - atom_string_entropy
+  - atom_name_preview
+  - HostName
+  - User
