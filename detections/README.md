@@ -38,9 +38,25 @@ SIGMA-compatible, SIEM/EDR deployable detection rules.
 | [PT01.005](./rules/PT01.005-vector-database-reconnaissance.md) | Vector DB Systematic Query Probing / Unauthenticated Access | PT01 | High |
 | [PT02.003](./rules/PT02.003-cloud-account-incubation.md) | New Cloud Tenant with Anomalous Risk Signals | PT02 | Medium |
 | [PT02.004](./rules/PT02.004-llm-mirroring-local-jailbreak-prep.md) | LLM Prompt Injection and Jailbreak Attempt | PT02 | Medium |
+| [PT03.001](./rules/PT03.001-bios-config-trigger-payloads.md) | UEFI Firmware Hash Change Between Reboots | PT03 | Critical |
+| [PT03.002](./rules/PT03.002-peripheral-firmware-stager.md) | HID Device Superhuman Keystroke Rate / Unrecognised VID/PID | PT03 | High |
+| [PT04.001](./rules/PT04.001-abuse-of-windows-atom-tables.md) | High-Entropy Global Atom Registration | PT04 | High |
+| [PT04.002](./rules/PT04.002-hidden-service-registration.md) | New WMI Permanent Event Subscription / Non-Standard Service Trigger | PT04 | High |
 | [PT06.001](./rules/PT06.001-dependency-confusion-probing.md) | Public Registry Resolution of Internal Package Name | PT06 | High |
+| [PT07.001](./rules/PT07.001-cloud-metadata-api-overloading.md) | Anomalous IMDS Request Rate from Single Process | PT07 | High |
+| [PT07.002](./rules/PT07.002-telemetry-tampering.md) | Agent Configuration File Modified by Non-Agent Process | PT07 | Critical |
+| [PT08.002](./rules/PT08.002-covert-dns-over-https-tunnels.md) | Direct HTTPS Connection to Known DoH Provider | PT08 | Medium |
+| [PT09.002](./rules/PT09.002-identity-topology-mapping.md) | IdP Admin API Enumeration Burst | PT09 | High |
+| [PT10.001](./rules/PT10.001-clipboard-history-service-abuse.md) | Clipboard History Database Access by Non-OS Process | PT10 | High |
+| [PT10.002](./rules/PT10.002-credential-cache-scraping-accessibility-apis.md) | Non-Assistive Process Accessing Sensitive App via Accessibility API | PT10 | High |
+| [PT11.002](./rules/PT11.002-covert-cloud-storage-staging.md) | Cloud Storage ACL Modified Then Accessed by New External Identity | PT11 | Critical |
 | [PT12.001](./rules/PT12.001-over-mounting-cloaking.md) | Anomalous tmpfs Mount Over Non-Standard Directory | PT12 | High |
 | [PT12.002](./rules/PT12.002-proc-environmental-archaeology.md) | Cross-PID /proc/environ Access — Credential Harvesting | PT12 | High |
+| [PT14.002](./rules/PT14.002-anticipatory-brand-domain-squatting.md) | Look-Alike Domain in CT Logs / Inbound Email from Look-Alike Domain | PT14 | High / Critical |
+| [PT17.001](./rules/PT17.001-analyst-habituation-lures.md) | Alert Type False Positive Rate Spike | PT17 | Medium |
+| [PT17.002](./rules/PT17.002-adversarial-log-crafting.md) | SIEM Parser Error Rate Spike / Anomalous Log Field Length | PT17 | High |
+| [PT18.001](./rules/PT18.001-holiday-travel-window-triggering.md) | Privileged Account Access During Holiday Period | PT18 | High |
+| [PT21.002](./rules/PT21.002-telemetry-noise-flooding.md) | Per-Host Event Volume Significantly Above Baseline | PT21 | High |
 
 ### Analytics — `analytics/`
 
