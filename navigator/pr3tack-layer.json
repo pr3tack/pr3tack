@@ -1,12 +1,12 @@
 {
-  "name": "PR3TACK v0.1 — Preemptive Tactics & Countermeasures",
+  "name": "PR3TACK v0.2 — Preemptive Tactics & Countermeasures",
   "versions": {
     "attack": "14",
     "navigator": "4.9",
     "layer": "4.5"
   },
   "domain": "enterprise-attack",
-  "description": "PR3TACK v0.1 seed matrix — forward-looking techniques covering plausible, unobserved adversary behaviours across SaaS, cloud, AI, supply chain, and Unix environments. Techniques are mapped to their nearest MITRE ATT&CK tactic where applicable. See https://github.com/pr3tack/pr3tack for full technique details.",
+  "description": "PR3TACK v0.2 — 46 forward-looking techniques across 21 tactics covering plausible, unobserved adversary behaviours across firmware, OS, SaaS, cloud, AI, supply chain, Unix, and sociotechnical environments. Techniques are mapped to their nearest MITRE ATT&CK tactic where applicable. See https://github.com/pr3tack/pr3tack for full technique details.",
   "filters": {
     "platforms": [
       "Linux",
@@ -267,6 +267,431 @@
         { "label": "Detection", "url": "https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT12.002-proc-environmental-archaeology.md" }
       ],
       "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1542.001",
+      "tactic": "defense-evasion",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT03.001 — BIOS Config Trigger Payloads: Firmware-resident payload activated by a specific BIOS/UEFI configuration state — executes pre-OS, invisible to all OS-level security tooling. MITRE gap: firmware as an execution trigger (not just persistence).",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT03.001" },
+        { "name": "PR3TACK Name", "value": "BIOS Config Trigger Payloads" },
+        { "name": "Tactic", "value": "PT03 — Execution" },
+        { "name": "Response Priority", "value": "Low" },
+        { "name": "Detection", "value": "detections/rules/PT03.001-bios-config-trigger-payloads.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT03.001-bios-config-trigger-payloads.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT03-execution/PT03.001-bios-config-trigger-payloads.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1195.003",
+      "tactic": "initial-access",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT03.002 — Peripheral Firmware Stager: Peripheral device firmware as an active execution stager — HID emulation or network adapter firmware executes payload on device connection. MITRE gap: peripheral firmware as execution primitive, not just supply chain access.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT03.002" },
+        { "name": "PR3TACK Name", "value": "Peripheral Firmware Stager" },
+        { "name": "Tactic", "value": "PT03 — Execution" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/rules/PT03.002-peripheral-firmware-stager.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT03.002-peripheral-firmware-stager.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT03-execution/PT03.002-peripheral-firmware-stager.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1055",
+      "tactic": "privilege-escalation",
+      "color": "#e84a4a",
+      "comment": "PR3TACK PT04.001 — Abuse of Windows Atom Tables: Using the Windows Global Atom Table as covert in-session payload storage — persists across process termination, accessible cross-process, not monitored by most EDR. MITRE gap: OS-native shared table as persistence/staging primitive.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT04.001" },
+        { "name": "PR3TACK Name", "value": "Abuse of Windows Atom Tables" },
+        { "name": "Tactic", "value": "PT04 — Persistence" },
+        { "name": "Response Priority", "value": "High" },
+        { "name": "Detection", "value": "detections/rules/PT04.001-abuse-of-windows-atom-tables.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT04.001-windows-atom-table-abuse.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT04-persistence/PT04.001-abuse-of-windows-atom-tables.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1543",
+      "tactic": "persistence",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT04.002 — Hidden Service Registration: Persistence via obscure OS subsystems (WMI subscriptions, systemd path units, hardware-triggered Windows services) that are invisible to standard service enumeration. MITRE gap: deliberate selection of sub-enumeration-threshold registration paths.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT04.002" },
+        { "name": "PR3TACK Name", "value": "Hidden Service Registration" },
+        { "name": "Tactic", "value": "PT04 — Persistence" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/rules/PT04.002-hidden-service-registration.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT04.002-hidden-service-registration.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT04-persistence/PT04.002-hidden-service-registration.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1068",
+      "tactic": "privilege-escalation",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT05.001 — Exploit Virtual Device Drivers: IOCTL abuse of signed hypervisor guest drivers for kernel-level escalation — BYOVD pattern targeting virtualisation-layer drivers trusted by WDAC/HVCI. MITRE gap: signed virtualisation driver as escalation vector.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT05.001" },
+        { "name": "PR3TACK Name", "value": "Exploit Virtual Device Drivers" },
+        { "name": "Tactic", "value": "PT05 — Privilege Escalation" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/hunting/PT05.001-exploit-virtual-device-drivers.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT05.001-virtual-device-driver-exploitation.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT05-privilege-escalation/PT05.001-exploit-virtual-device-drivers.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1558",
+      "tactic": "credential-access",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT05.002 — Credential Store Forging: Pre-positioning forged credential cache entries for retrieval by privileged processes — temporal separation between planting and exploitation evades correlation. MITRE gap: credential store as escalation pre-positioning vector.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT05.002" },
+        { "name": "PR3TACK Name", "value": "Credential Store Forging" },
+        { "name": "Tactic", "value": "PT05 — Privilege Escalation" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/analytics/PT05.002-credential-store-forging.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT05.002-credential-store-forging.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT05-privilege-escalation/PT05.002-credential-store-forging.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1552.005",
+      "tactic": "credential-access",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT07.001 — Cloud Metadata API Overloading: IMDS request flooding to corrupt logging pipeline attribution — cloud audit logs record null instance identity, preventing correlation of malicious API calls. MITRE gap: IMDS as log corruption mechanism, not just credential theft.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT07.001" },
+        { "name": "PR3TACK Name", "value": "Cloud Metadata API Overloading" },
+        { "name": "Tactic", "value": "PT07 — Defense Evasion" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/rules/PT07.001-cloud-metadata-api-overloading.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT07.001-cloud-metadata-api-overloading.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT07-defense-evasion/PT07.001-cloud-metadata-api-overloading.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1562.006",
+      "tactic": "defense-evasion",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT07.002 — Telemetry Tampering: In-place telemetry agent config modification to selectively suppress specific event types — agent remains healthy, masking malicious activity without triggering availability alerts. MITRE gap: surgical config-level suppression vs. agent killing.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT07.002" },
+        { "name": "PR3TACK Name", "value": "Telemetry Tampering" },
+        { "name": "Tactic", "value": "PT07 — Defense Evasion" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/rules/PT07.002-telemetry-tampering.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT07.002-telemetry-tampering.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT07-defense-evasion/PT07.002-telemetry-tampering.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1011",
+      "tactic": "exfiltration",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT08.001 — Bluetooth HID Covert Channels: Bidirectional C2 via Bluetooth HID report mechanism — bypasses all network security controls, appears as legitimate peripheral interaction. MITRE gap: HID protocol as bidirectional C2, not just exfiltration.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT08.001" },
+        { "name": "PR3TACK Name", "value": "Bluetooth HID Covert Channels" },
+        { "name": "Tactic", "value": "PT08 — Command & Control" },
+        { "name": "Response Priority", "value": "Low" },
+        { "name": "Detection", "value": "detections/hunting/PT08.001-bluetooth-hid-covert-channels.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT08.001-bluetooth-hid-covert-channels.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT08-command-and-control/PT08.001-bluetooth-hid-covert-channels.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1071.004",
+      "tactic": "command-and-control",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT08.002 — Covert DNS-over-HTTPS Tunnels: DoH tunnelling via public resolvers (Cloudflare, Google) blends C2 with encrypted HTTPS, bypassing DNS-based detection entirely. MITRE gap: DoH specifically defeats DNS monitoring controls that traditional DNS C2 detection relies on.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT08.002" },
+        { "name": "PR3TACK Name", "value": "Covert DNS-over-HTTPS Tunnels" },
+        { "name": "Tactic", "value": "PT08 — Command & Control" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/rules/PT08.002-covert-dns-over-https-tunnels.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT08.002-covert-doh-tunnels.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT08-command-and-control/PT08.002-covert-dns-over-https-tunnels.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1176",
+      "tactic": "persistence",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT09.001 — Browser Extension Enumeration via IPC: Enumerating installed extensions via OS IPC without browser-level access — identifies password managers and SSO plugins for targeted exploitation. MITRE gap: discovery operation against browser extension surface, not malicious installation.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT09.001" },
+        { "name": "PR3TACK Name", "value": "Browser Extension Enumeration via IPC" },
+        { "name": "Tactic", "value": "PT09 — Discovery" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/hunting/PT09.001-browser-extension-enumeration-ipc.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT09.001-browser-extension-enumeration-ipc.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT09-discovery/PT09.001-browser-extension-enumeration-ipc.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1087",
+      "tactic": "discovery",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT09.002 — Identity Topology Mapping: Systematic mapping of SSO federation chains, OAuth trust graphs, and cross-tenant B2B configurations — reveals blast radius of identity compromise beyond standard account enumeration. MITRE gap: modern SaaS/cloud federation topology vs. AD-centric domain trust.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT09.002" },
+        { "name": "PR3TACK Name", "value": "Identity Topology Mapping" },
+        { "name": "Tactic", "value": "PT09 — Discovery" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/rules/PT09.002-identity-topology-mapping.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT09.002-identity-topology-mapping.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT09-discovery/PT09.002-identity-topology-mapping.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1115",
+      "tactic": "collection",
+      "color": "#e84a4a",
+      "comment": "PR3TACK PT10.001 — Abuse of Clipboard History Services: Retrospective harvest of OS clipboard history databases containing weeks of credential material — far richer than real-time capture. MITRE gap: persistent clipboard history stores vs. real-time clipboard monitoring.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT10.001" },
+        { "name": "PR3TACK Name", "value": "Abuse of Clipboard History Services" },
+        { "name": "Tactic", "value": "PT10 — Collection" },
+        { "name": "Response Priority", "value": "High" },
+        { "name": "Detection", "value": "detections/rules/PT10.001-clipboard-history-service-abuse.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT10.001-clipboard-history-abuse.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT10-collection/PT10.001-clipboard-history-service-abuse.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1056.002",
+      "tactic": "collection",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT10.002 — Credential Cache Scraping via Accessibility APIs: Reading credential values from application UI element state via OS accessibility APIs — captures auto-filled passwords and displayed tokens without intercepting input events. MITRE gap: UI element state vs. input event capture.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT10.002" },
+        { "name": "PR3TACK Name", "value": "Credential Cache Scraping via Accessibility APIs" },
+        { "name": "Tactic", "value": "PT10 — Collection" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/rules/PT10.002-credential-cache-scraping-accessibility-apis.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT10.002-accessibility-api-credential-scraping.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT10-collection/PT10.002-credential-cache-scraping-accessibility-apis.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1113",
+      "tactic": "collection",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT11.001 — Screen Reader API Data Leak: Systematic UI element tree traversal via accessibility APIs to harvest rendered screen content for exfiltration — no screenshots, no filesystem access. MITRE gap: structured text via accessibility API vs. pixel-level screen capture.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT11.001" },
+        { "name": "PR3TACK Name", "value": "Leveraging Screen Reader APIs for Data Leak" },
+        { "name": "Tactic", "value": "PT11 — Exfiltration" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/hunting/PT11.001-screen-reader-api-data-leak.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT11.001-screen-reader-api-data-leak.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT11-exfiltration/PT11.001-screen-reader-api-data-leak.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1567.002",
+      "tactic": "exfiltration",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT11.002 — Covert Cloud Storage Staging: Using the victim's own cloud storage as an exfiltration staging point — exploits existing trusted egress paths to bypass external upload anomaly detection. MITRE gap: victim-owned storage vs. adversary-controlled cloud storage.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT11.002" },
+        { "name": "PR3TACK Name", "value": "Covert Cloud Storage Staging" },
+        { "name": "Tactic", "value": "PT11 — Exfiltration" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/rules/PT11.002-covert-cloud-storage-staging.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT11.002-covert-cloud-storage-staging.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT11-exfiltration/PT11.002-covert-cloud-storage-staging.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1195.002",
+      "tactic": "initial-access",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT13.001 — Software Update Supply Chain Piggybacking: Compromising a low-popularity app's update channel to achieve simultaneous lateral movement to all endpoints — distinguishes lateral movement use from initial access. MITRE gap: supply chain as lateral movement mechanism.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT13.001" },
+        { "name": "PR3TACK Name", "value": "Software Update Supply Chain Piggybacking" },
+        { "name": "Tactic", "value": "PT13 — Lateral Movement" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/analytics/PT13.001-software-update-supply-chain-piggybacking.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT13.001-software-update-supply-chain-piggybacking.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT13-lateral-movement/PT13.001-software-update-supply-chain-piggybacking.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1484",
+      "tactic": "defense-evasion",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT13.002 — Business-Unit Policy Propagation: Lateral movement via existing over-permissioned cross-unit RBAC without policy modification — no policy change audit trail. MITRE gap: exploitation of existing permissive policy vs. policy modification.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT13.002" },
+        { "name": "PR3TACK Name", "value": "Business-Unit Policy Propagation" },
+        { "name": "Tactic", "value": "PT13 — Lateral Movement" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/hunting/PT13.002-business-unit-policy-propagation.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT13.002-business-unit-policy-propagation.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT13-lateral-movement/PT13.002-business-unit-policy-propagation.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1195.001",
+      "tactic": "initial-access",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT14.001 — OSS Supply-Chain Sleeper Commit: Dormant trigger-based payload in OSS contribution designed to pass all code review and CI/CD testing — activates on specific condition in production. MITRE gap: the sleeper/dormant-trigger pattern vs. immediately-active malicious code.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT14.001" },
+        { "name": "PR3TACK Name", "value": "OSS Supply-Chain Sleeper Commit" },
+        { "name": "Tactic", "value": "PT14 — Pre-Positioning" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/hunting/PT14.001-oss-supply-chain-sleeper-commit.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT14.001-oss-supply-chain-sleeper-commit.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT14-pre-positioning/PT14.001-oss-supply-chain-sleeper-commit.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1583.001",
+      "tactic": "resource-development",
+      "color": "#e84a4a",
+      "comment": "PR3TACK PT14.002 — Anticipatory Brand/Domain Squatting: Pre-registering look-alike domains months in advance to age them past reputation filters — activated at point of operation. MITRE gap: the anticipatory aging strategy vs. operational domain registration.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT14.002" },
+        { "name": "PR3TACK Name", "value": "Anticipatory Brand/Domain Squatting" },
+        { "name": "Tactic", "value": "PT14 — Pre-Positioning" },
+        { "name": "Response Priority", "value": "High" },
+        { "name": "Detection", "value": "detections/rules/PT14.002-anticipatory-brand-domain-squatting.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT14.002-anticipatory-domain-squatting.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT14-pre-positioning/PT14.002-anticipatory-brand-domain-squatting.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1490",
+      "tactic": "impact",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT15.001 — Backup Bit-Rot Injection: Subtle targeted backup corruption that passes integrity checks — discovered only at recovery point during incident. MITRE gap: corruption-with-checksum-update vs. backup deletion/encryption.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT15.001" },
+        { "name": "PR3TACK Name", "value": "Backup Bit-Rot Injection" },
+        { "name": "Tactic", "value": "PT15 — Resilience Erosion" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/analytics/PT15.001-backup-bit-rot-injection.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT15.001-backup-bit-rot-injection.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT15-resilience-erosion/PT15.001-backup-bit-rot-injection.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1562",
+      "tactic": "defense-evasion",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT15.002 — Patch-Fatigue Campaigns: Coordinated fabricated vulnerability disclosures to saturate patching queue ahead of deploying a real critical vulnerability. MITRE gap: strategic resource exhaustion as exploitation enabler — no MITRE equivalent.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT15.002" },
+        { "name": "PR3TACK Name", "value": "Patch-Fatigue Campaigns" },
+        { "name": "Tactic", "value": "PT15 — Resilience Erosion" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/analytics/PT15.002-patch-fatigue-campaigns.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT15.002-patch-fatigue-campaigns.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT15-resilience-erosion/PT15.002-patch-fatigue-campaigns.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1585",
+      "tactic": "resource-development",
+      "color": "#9b59b6",
+      "comment": "PR3TACK PT16.002 — Procurement Account Establishment: Fraudulent vendor registration to gain trusted access to procurement portals and enable BEC invoicing fraud. MITRE gap: procurement/vendor management system as initial access vector.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT16.002" },
+        { "name": "PR3TACK Name", "value": "Procurement Account Establishment" },
+        { "name": "Tactic", "value": "PT16 — Governance Subversion" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/hunting/PT16.002-procurement-account-establishment.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT16.002-procurement-account-establishment.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT16-governance-subversion/PT16.002-procurement-account-establishment.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1565.001",
+      "tactic": "impact",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT17.002 — Adversarial Log Crafting: Crafting log entries that exploit SIEM parser logic to misattribute malicious events to innocent identities or drop evidence. MITRE gap: SIEM parser as attack surface for attribution manipulation.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT17.002" },
+        { "name": "PR3TACK Name", "value": "Adversarial Log Crafting" },
+        { "name": "Tactic", "value": "PT17 — Cognitive Manipulation" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/rules/PT17.002-adversarial-log-crafting.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT17.002-adversarial-log-crafting.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT17-cognitive-manipulation/PT17.002-adversarial-log-crafting.md" }],
+      "showSubtechniques": false
+    },
+    {
+      "techniqueID": "T1496",
+      "tactic": "impact",
+      "color": "#e8724a",
+      "comment": "PR3TACK PT18.002 — Billing/Cost Shock Forcing: Deliberate cloud cost spike to force emergency responses that disable security infrastructure. MITRE gap: resource consumption as organisational response manipulation vs. cryptomining benefit.",
+      "enabled": true,
+      "metadata": [
+        { "name": "PR3TACK ID", "value": "PT18.002" },
+        { "name": "PR3TACK Name", "value": "Billing/Cost Shock Forcing" },
+        { "name": "Tactic", "value": "PT18 — Operational Tempo Manipulation" },
+        { "name": "Response Priority", "value": "Medium" },
+        { "name": "Detection", "value": "detections/analytics/PT18.002-billing-cost-shock-forcing.md" },
+        { "name": "SIGMA", "value": "detections/sigma/pr3tack-PT18.002-billing-cost-shock-forcing.yml" }
+      ],
+      "links": [{ "label": "Technique", "url": "https://github.com/pr3tack/pr3tack/blob/main/techniques/PT18-operational-tempo-manipulation/PT18.002-billing-cost-shock-forcing.md" }],
+      "showSubtechniques": false
     }
   ],
   "gradient": {
@@ -294,7 +719,7 @@
   ],
   "metadata": [
     { "name": "Framework", "value": "PR3TACK" },
-    { "name": "Version", "value": "0.1" },
+    { "name": "Version", "value": "0.2" },
     { "name": "Release", "value": "FIRST Conference 2026 — Denver, Colorado" },
     { "name": "Contact", "value": "join@pr3tack.org" },
     { "name": "Repository", "value": "https://github.com/pr3tack/pr3tack" }
