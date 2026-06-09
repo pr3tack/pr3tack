@@ -1,0 +1,43 @@
+title: PR3TACK PT14.002 — Anticipatory Brand Domain Squatting — Inbound Email from Look-Alike Domain
+id: e5b9d417-2a6c-4f8e-g596-9f7d2b5e4c81
+status: experimental
+description: >
+  Detects inbound email where the sending domain has high visual similarity to
+  an owned brand domain and DMARC alignment fails — indicative of an activated
+  squatted domain being used for phishing or business email compromise. Adversaries
+  register look-alike domains months in advance to age them past reputation filters,
+  then activate them for targeted phishing at the point of operation.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT14.002-anticipatory-brand-domain-squatting.md
+  - https://dmarc.org/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.resource_development
+  - attack.t1583.001
+  - attack.initial_access
+  - attack.t1566
+  - pr3tack.PT14
+  - pr3tack.PT14.002
+logsource:
+  category: email
+  product: email_gateway
+detection:
+  selection:
+    dmarc_result:
+      - 'fail'
+      - 'none'
+    sender_domain_similarity_score|gte: 0.85
+    sender_domain_is_owned: false
+  condition: selection
+falsepositives:
+  - Legitimate partner domains with similar names that pre-date your monitoring deployment
+  - Marketing agencies sending on behalf of your domain without proper DMARC alignment
+level: critical
+fields:
+  - sender_address
+  - sender_domain
+  - sender_domain_similarity_score
+  - dmarc_result
+  - subject
+  - recipient_address

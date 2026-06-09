@@ -1,0 +1,49 @@
+title: PR3TACK PT10.001 — Clipboard History Service Abuse — Unauthorised Clipboard Database Access
+id: c3f7b285-9e4a-4d8c-e374-7d5b9f3c2a68
+status: experimental
+description: >
+  Detects a process other than the Windows Clipboard service or approved password
+  managers accessing the Windows Clipboard History database files. The clipboard
+  history database stores up to 25 session clipboard entries including text, HTML,
+  and images — frequently containing passwords, API keys, OTPs, and confidential
+  text copied from password managers or sensitive applications.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT10.001-clipboard-history-service-abuse.md
+  - https://support.microsoft.com/en-us/windows/clipboard-in-windows-c436501e-985d-1c8d-97ea-fe46ddf338c6
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.collection
+  - attack.t1115
+  - pr3tack.PT10
+  - pr3tack.PT10.001
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    EventID:
+      - 11   # FileCreate/FileModify
+      - 15   # FileCreateStreamHash
+    TargetFilename|contains:
+      - '\Microsoft\Windows\Clipboard\'
+  filter_approved:
+    Image|contains:
+      - 'TextInputHost.exe'
+      - 'SystemSettings.exe'
+      - '1Password.exe'
+      - 'Bitwarden.exe'
+      - 'KeePass.exe'
+      - 'Dashlane.exe'
+      - 'LastPass.exe'
+  condition: selection and not filter_approved
+falsepositives:
+  - Backup or sync agents that include clipboard history paths in their scope
+  - Custom enterprise password managers not listed in the filter
+level: high
+fields:
+  - TargetFilename
+  - Image
+  - ProcessId
+  - HostName
+  - User

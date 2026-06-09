@@ -1,0 +1,51 @@
+title: PR3TACK PT07.002 — Telemetry Tampering — Agent Configuration File Modified by Non-Agent Process
+id: a9d5f283-7c3e-4b6a-c951-8b3f7e5d2a46
+status: experimental
+description: >
+  Detects modification of telemetry agent configuration files (Splunk, Elastic,
+  Filebeat, osquery, NXLog, Winlogbeat) by a process other than the agent itself
+  or approved configuration management tooling. Selective config modification
+  allows an adversary to suppress specific event types while the agent continues
+  to operate and report as healthy — evading agent availability monitoring.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT07.002-telemetry-tampering.md
+  - https://attack.mitre.org/techniques/T1562/006/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.defense_evasion
+  - attack.t1562.006
+  - pr3tack.PT07
+  - pr3tack.PT07.002
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    EventID: 11  # FileCreate
+    TargetFilename|contains:
+      - '\SplunkUniversalForwarder\etc\system\local\inputs.conf'
+      - '\Elastic\Agent\agent.yml'
+      - 'winlogbeat.yml'
+      - 'filebeat.yml'
+      - 'osquery.conf'
+      - 'nxlog.conf'
+  filter_approved:
+    Image|contains:
+      - 'splunkd.exe'
+      - 'elastic-agent.exe'
+      - 'ansible'
+      - 'chef-client.rb'
+      - 'puppet'
+      - 'salt-minion'
+  condition: selection and not filter_approved
+falsepositives:
+  - Manual configuration changes by authorised administrators during maintenance windows
+  - Configuration management tools not listed in the filter
+level: critical
+fields:
+  - TargetFilename
+  - Image
+  - ProcessId
+  - HostName
+  - User

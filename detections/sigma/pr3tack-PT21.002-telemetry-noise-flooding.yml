@@ -1,0 +1,40 @@
+title: PR3TACK PT21.002 — Telemetry Noise Flooding — Per-Host Event Volume Anomaly
+id: b8e3a741-5d9f-4c2b-j839-3c1a5e8b7f24
+status: experimental
+description: >
+  Detects a host generating event volumes significantly above its established
+  baseline within a short time window. Deliberate telemetry noise flooding
+  generates high volumes of benign events to saturate SIEM ingestion capacity,
+  burying malicious signals in noise while the SIEM continues to report as
+  healthy. Unlike agent killing or suppression, noise flooding maintains the
+  appearance of a fully operational telemetry pipeline.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT21.002-telemetry-noise-flooding.md
+  - https://attack.mitre.org/techniques/T1562/006/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.defense_evasion
+  - attack.t1562.006
+  - pr3tack.PT21
+  - pr3tack.PT21.002
+logsource:
+  category: application
+  product: siem_pipeline_metrics
+detection:
+  selection:
+    metric_name: 'host_events_per_hour'
+    current_value|gt: baseline_mean_x5
+    baseline_sample_days|gte: 7
+  condition: selection
+falsepositives:
+  - Build servers and CI/CD agents during active build pipelines
+  - Security scan hosts during scheduled vulnerability scans
+  - Log forwarding agents during initial deployment with backfill
+level: high
+fields:
+  - host_name
+  - current_events_per_hour
+  - baseline_events_per_hour
+  - ratio
+  - primary_event_type

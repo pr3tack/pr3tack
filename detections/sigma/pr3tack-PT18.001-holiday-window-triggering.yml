@@ -1,0 +1,51 @@
+title: PR3TACK PT18.001 — Holiday Window Triggering — Privileged Account Access During Holiday Period
+id: a7d2f639-4c8e-4b1a-i728-2b9f4d7a6e13
+status: experimental
+description: >
+  Detects use of privileged accounts or administrative access during configured
+  holiday periods or public holidays where SOC coverage is reduced. Adversaries
+  deliberately time attack operations to coincide with staffing gaps — extending
+  their exploitation window and slowing incident response. This rule fires on
+  privileged access events outside the configured on-call roster during holiday periods.
+  Requires integration with a holiday calendar and on-call management system.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT18.001-holiday-travel-window-triggering.md
+  - https://www.cisa.gov/news-events/alerts/2021/11/22/cisa-fbi-nsa-and-international-partners-issue-advisory-ransomware-awareness-holidays
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.defense_evasion
+  - pr3tack.PT18
+  - pr3tack.PT18.001
+logsource:
+  category: authentication
+  product: windows
+detection:
+  selection:
+    EventID:
+      - 4672  # Special privileges assigned to new logon
+      - 4624  # Successful logon
+    LogonType:
+      - 2   # Interactive
+      - 10  # RemoteInteractive (RDP)
+    PrivilegeList|contains:
+      - 'SeDebugPrivilege'
+      - 'SeTcbPrivilege'
+      - 'SeBackupPrivilege'
+  filter_business_hours:
+    # Adjust to your timezone and business hours
+    HourOfDay|between:
+      - 7
+      - 19
+  condition: selection and not filter_business_hours
+falsepositives:
+  - On-call administrators performing authorised out-of-hours maintenance
+  - Automated service accounts with privileged access running scheduled tasks
+level: high
+fields:
+  - SubjectUserName
+  - SubjectDomainName
+  - LogonType
+  - PrivilegeList
+  - IpAddress
+  - WorkstationName
