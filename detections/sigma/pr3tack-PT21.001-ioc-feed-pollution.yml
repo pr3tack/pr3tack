@@ -1,0 +1,38 @@
+title: PR3TACK PT21.001 — IOC/Telco Feed Pollution — Own Infrastructure Listed as Malicious
+id: d0e1f2a3-b4c5-6789-defa-890123456789
+status: experimental
+description: >
+  Detects the organisation's own IP ranges, domains, or email infrastructure
+  appearing in external threat intelligence feeds as malicious indicators — a
+  key signal of adversarial IOC framing attacks, where an adversary submits
+  the victim's legitimate infrastructure to threat intelligence platforms to
+  cause partner organisations and customers to block the victim's own services.
+  Requires integration with a TIP that supports own-asset monitoring.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/PT21.001-ioc-telco-feed-pollution.md
+  - https://www.misp-project.org/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - pr3tack.PT21
+  - pr3tack.PT21.001
+logsource:
+  category: application
+  product: threat_intelligence_platform
+detection:
+  selection:
+    event_type: 'ioc_match_own_asset'
+    ioc_classification: 'malicious'
+    ioc_source_is_internal: false
+  condition: selection
+falsepositives:
+  - Historical IOC entries from past security incidents involving own infrastructure that has since been remediated
+  - Shared hosting or CDN IPs that are legitimately listed for other tenants
+level: critical
+fields:
+  - ioc_value
+  - ioc_type
+  - ioc_source_feed
+  - ioc_submission_date
+  - matched_asset
+  - matched_asset_type

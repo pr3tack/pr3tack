@@ -1,0 +1,40 @@
+title: PR3TACK PT07.001 — Cloud Metadata API Overloading — IMDS High Request Rate
+id: c3d4e5f6-a7b8-9012-cdef-123456789012
+status: experimental
+description: >
+  Detects a single process generating more than 100 requests per minute to the
+  cloud instance metadata service (IMDS) endpoint at 169.254.169.254. Normal
+  workloads rarely require high-frequency metadata polling; this rate indicates
+  deliberate IMDS flooding to corrupt metadata-dependent logging pipelines,
+  causing cloud audit logs to record null or incorrect instance identity fields
+  and preventing attribution of malicious API calls to the correct instance.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT07.001-cloud-metadata-api-overloading.md
+  - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.defense_evasion
+  - attack.t1552.005
+  - pr3tack.PT07
+  - pr3tack.PT07.001
+logsource:
+  category: network_connection
+  product: linux
+detection:
+  selection:
+    DestinationIp: '169.254.169.254'
+    DestinationPort: 80
+  timeframe: 1m
+  condition: selection | count() by Image > 100
+falsepositives:
+  - Monitoring agents with aggressive IMDS credential refresh cycles
+  - Applications with misconfigured IMDS polling intervals
+level: high
+fields:
+  - Image
+  - ProcessId
+  - DestinationIp
+  - request_count_per_minute
+  - HostName
+  - User
