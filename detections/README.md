@@ -100,27 +100,27 @@ Hypothesis-driven threat hunting queries for proactive adversary discovery.
 | PT09.001 Browser Extension Enumeration via IPC | | | ✅ | |
 | PT09.002 Identity Topology Mapping | ✅ | | | |
 | PT10.001 Abuse of Clipboard History Services | ✅ | | | ✅ |
-| PT10.002 Credential Cache Scraping via Accessibility | | | | |
-| PT11.001 Screen Reader API Data Leak | | | | |
+| PT10.002 Credential Cache Scraping via Accessibility | ✅ | | | |
+| PT11.001 Screen Reader API Data Leak | | | ✅ | |
 | PT11.002 Covert Cloud Storage Staging | ✅ | | | ✅ |
 | PT12.001 Over-Mounting Cloaking | ✅ | ✅ | | ✅ |
 | PT12.002 /proc Environmental Archaeology | ✅ | ✅ | | ✅ |
 | PT13.001 Software Update Supply Chain Piggybacking | | ✅ | | |
-| PT13.002 Business-Unit Policy Propagation | | | | |
+| PT13.002 Business-Unit Policy Propagation | | | ✅ | |
 | PT14.001 OSS Supply-Chain Sleeper Commit | | | ✅ | |
 | PT14.002 Anticipatory Brand/Domain Squatting | ✅ | | | ✅ |
 | PT15.001 Backup Bit-Rot Injection | | ✅ | | |
-| PT15.002 Patch-Fatigue Campaigns | | | | |
-| PT16.001 Standards/Comments Manipulation | | | | |
-| PT16.002 Procurement Account Establishment | | | | |
+| PT15.002 Patch-Fatigue Campaigns | | ✅ | | |
+| PT16.001 Standards/Comments Manipulation | — | — | — | — |
+| PT16.002 Procurement Account Establishment | | | ✅ | |
 | PT17.001 Analyst Habituation Lures | ✅ | | | |
 | PT17.002 Adversarial Log Crafting | ✅ | | | ✅ |
 | PT18.001 Holiday/Travel Window Triggering | ✅ | | | ✅ |
-| PT18.002 Billing/Cost Shock Forcing | | | | |
-| PT19.001 Training-Data Seed Poisoning | | | | |
-| PT19.002 Model Output Injection | | | | |
-| PT20.001 Investor/Media Narrative Orchestration | | | | |
-| PT20.002 Vendor-Influence Campaigns | | | | |
+| PT18.002 Billing/Cost Shock Forcing | | ✅ | | |
+| PT19.001 Training-Data Seed Poisoning | | ✅ | | |
+| PT19.002 Model Output Injection | | ✅ | | |
+| PT20.001 Investor/Media Narrative Orchestration | | | ✅ | |
+| PT20.002 Vendor-Influence Campaigns | | | ✅ | |
 | PT21.001 IOC/Telco Feed Pollution | | ✅ | | |
 | PT21.002 Telemetry Noise Flooding | ✅ | | | ✅ |
 
