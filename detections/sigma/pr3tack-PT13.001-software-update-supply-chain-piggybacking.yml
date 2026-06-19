@@ -1,0 +1,44 @@
+title: PR3TACK PT13.001 — Software Update Supply Chain Piggybacking — Update Signed by New Certificate
+id: d6e7f8a9-b0c1-2345-defa-456789012345
+status: experimental
+description: >
+  Detects an application update signed by a different code signing certificate
+  than previously observed for the same application — a high-fidelity indicator
+  of supply chain piggybacking where an adversary has compromised a vendor's
+  signing key or update infrastructure to deliver a malicious update via the
+  trusted, authenticated update channel. Requires software inventory tracking
+  of per-application signing certificate history.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/PT13.001-software-update-supply-chain-piggybacking.md
+  - https://attack.mitre.org/techniques/T1195/002/
+  - https://slsa.dev/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.lateral_movement
+  - attack.t1195.002
+  - pr3tack.PT13
+  - pr3tack.PT13.001
+logsource:
+  category: application
+  product: software_inventory
+detection:
+  selection:
+    event_type: 'software_update_installed'
+    signing_cert_changed: true
+    previous_cert_thumbprint: '*'  # Must have a known previous cert
+  filter_known_rotation:
+    cert_rotation_announced: true  # Populated from vendor advisory feed
+  condition: selection and not filter_known_rotation
+falsepositives:
+  - Legitimate certificate rotation by vendors who pre-announce the change
+  - Acquisition or rebrand events where signing entity changes
+level: high
+fields:
+  - application_name
+  - application_version
+  - previous_cert_thumbprint
+  - new_cert_thumbprint
+  - new_cert_subject
+  - update_source_url
+  - hostname

@@ -1,0 +1,43 @@
+title: PR3TACK PT03.001 — BIOS Config Trigger Payloads — UEFI Firmware Hash Change
+id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+status: experimental
+description: >
+  Detects an unexpected change in measured UEFI firmware hash (TPM PCR 0 or PCR 7)
+  between consecutive system boots. PCR 0 covers BIOS/UEFI firmware; PCR 7 covers
+  Secure Boot state. Any firmware hash change not corresponding to an authorised,
+  change-managed firmware update is a critical indicator of firmware tampering,
+  consistent with BIOS config trigger payload implantation.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT03.001-bios-config-trigger-payloads.md
+  - https://eclypsium.com/
+  - https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.execution
+  - attack.t1542.001
+  - pr3tack.PT03
+  - pr3tack.PT03.001
+logsource:
+  category: firmware_integrity
+  product: tpm_attestation
+detection:
+  selection:
+    event_type: 'firmware_measurement_change'
+    pcr_index:
+      - 0
+      - 7
+  filter_authorised:
+    change_ticket_id: '*'
+  condition: selection and not filter_authorised
+falsepositives:
+  - Authorised firmware updates not recorded in change management system
+  - BIOS configuration changes (boot order, Secure Boot key enrollment) by IT administrators
+level: critical
+fields:
+  - hostname
+  - pcr_index
+  - previous_pcr_value
+  - current_pcr_value
+  - firmware_version
+  - last_authorised_update

@@ -1,0 +1,49 @@
+title: PR3TACK PT14.001 — OSS Supply-Chain Sleeper Commit — Post-Update Unexpected Network Connection
+id: f8a9b0c1-d2e3-4567-fabc-678901234567
+status: experimental
+description: >
+  Detects an application establishing a network connection to an unexpected
+  destination within 5 minutes of a dependency update being installed — a strong
+  indicator of a sleeper payload activating post-update. OSS supply-chain sleeper
+  commits contain dormant execution paths that activate on specific trigger conditions
+  (version number, date, environment variable) and are designed to pass all code
+  review and CI/CD testing before activating in production.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/PT14.001-oss-supply-chain-sleeper-commit.md
+  - https://attack.mitre.org/techniques/T1195/001/
+  - https://www.openwall.com/lists/oss-security/2024/03/29/4
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.resource_development
+  - attack.t1195.001
+  - pr3tack.PT14
+  - pr3tack.PT14.001
+logsource:
+  category: network_connection
+  product: windows
+detection:
+  selection:
+    minutes_since_package_update|lte: 5
+    destination_in_historical_profile: false
+    Initiated: 'true'
+  filter_known_updaters:
+    Image|contains:
+      - 'npm'
+      - 'pip'
+      - 'yarn'
+      - 'cargo'
+      - 'nuget'
+  condition: selection and not filter_known_updaters
+falsepositives:
+  - Packages that legitimately establish new network connections on first run after update
+  - Telemetry or update-check connections from newly updated software
+level: high
+fields:
+  - Image
+  - DestinationIp
+  - DestinationPort
+  - package_name
+  - package_version
+  - minutes_since_update
+  - HostName

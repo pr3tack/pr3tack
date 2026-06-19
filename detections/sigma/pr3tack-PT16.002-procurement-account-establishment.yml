@@ -1,0 +1,41 @@
+title: PR3TACK PT16.002 — Procurement Account Establishment — New Vendor Bank Account Change
+id: c1d2e3f4-a5b6-7890-cdef-901234567890
+status: experimental
+description: >
+  Detects a change to the bank account details of an existing approved vendor —
+  the highest-fidelity signal for Business Email Compromise (BEC) targeting the
+  procurement process. Legitimate vendors rarely change bank accounts; any change
+  must be independently verified via a confirmed phone call to a known contact
+  before processing any payments. This is distinct from new vendor registration
+  fraud and represents the most financially damaging procurement attack variant.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/PT16.002-procurement-account-establishment.md
+  - https://www.ic3.gov/Media/Y2023/PSA230609
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-061a
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.impact
+  - attack.t1657
+  - pr3tack.PT16
+  - pr3tack.PT16.002
+logsource:
+  category: application
+  product: procurement_system
+detection:
+  selection:
+    event_type: 'vendor_bank_account_changed'
+    vendor_status: 'approved'
+  condition: selection
+falsepositives:
+  - Legitimate bank account changes by established vendors (rare — always verify independently)
+level: critical
+fields:
+  - vendor_name
+  - vendor_id
+  - change_requested_by
+  - change_request_source
+  - old_bank_account_hash
+  - new_bank_account_hash
+  - change_timestamp
+  - approver

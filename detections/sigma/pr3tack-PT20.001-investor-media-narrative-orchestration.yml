@@ -1,0 +1,43 @@
+title: PR3TACK PT20.001 — Investor/Media Narrative Orchestration — Own Brand in Coordinated Negative Coverage
+id: d2e3f4a5-b6c7-8901-defa-012345678901
+status: experimental
+description: >
+  Detects a spike in negative media coverage about the organisation's security
+  posture or security leadership from newly-created analyst/media accounts —
+  a potential indicator of coordinated narrative orchestration designed to coerce
+  security-adverse decisions. Requires integration with a media monitoring platform
+  with sentiment analysis and account age metadata. Low-confidence signal — treat
+  as input to broader investigation, not standalone escalation.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/PT20.001-investor-media-narrative-orchestration.md
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - pr3tack.PT20
+  - pr3tack.PT20.001
+logsource:
+  category: application
+  product: media_monitoring
+detection:
+  selection:
+    event_type: 'article_published'
+    article_sentiment: 'negative'
+    article_topic|contains:
+      - 'security'
+      - 'CISO'
+      - 'cybersecurity'
+    organisation_mentioned: true
+    author_account_age_days|lt: 180
+  timeframe: 7d
+  condition: selection | count() > 5
+falsepositives:
+  - Legitimate critical journalism about genuine security incidents
+  - Competitor analysis coverage by new publications
+level: low
+fields:
+  - article_url
+  - author_handle
+  - publication_platform
+  - author_account_creation_date
+  - article_sentiment_score
+  - article_topic

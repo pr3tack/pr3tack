@@ -1,0 +1,51 @@
+title: PR3TACK PT11.001 — Screen Reader API Data Leak — Background Process High-Frequency Accessibility Traversal
+id: c5d6e7f8-a9b0-1234-cdef-345678901234
+status: experimental
+description: >
+  Detects a background process (no visible UI window) making high-frequency
+  accessibility API calls across multiple application windows — consistent with
+  automated screen content harvesting for exfiltration. Unlike screenshot capture,
+  accessibility API scraping returns structured text from application UI element
+  trees, bypassing screenshot detection while capturing rich data from web apps,
+  internal tools, and document viewers.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/PT11.001-screen-reader-api-data-leak.md
+  - https://attack.mitre.org/techniques/T1113/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.collection
+  - attack.exfiltration
+  - attack.t1113
+  - pr3tack.PT11
+  - pr3tack.PT11.001
+logsource:
+  category: process_access
+  product: windows
+detection:
+  selection:
+    api_call|contains:
+      - 'IUIAutomation::GetRootElement'
+      - 'UIA_FindAllDescendants'
+      - 'AXUIElementCopyAttributeValue'
+    has_visible_window: false
+    target_process_count|gt: 3
+  filter_assistive_tech:
+    Image|contains:
+      - 'nvda.exe'
+      - 'JAWS'
+      - 'narrator.exe'
+      - 'ZoomText'
+  condition: selection and not filter_assistive_tech
+falsepositives:
+  - Background RPA tools with legitimate cross-application automation
+  - Enterprise accessibility solutions running as background services
+level: high
+fields:
+  - Image
+  - ProcessId
+  - has_visible_window
+  - target_process_count
+  - api_call_count_per_minute
+  - HostName
+  - User

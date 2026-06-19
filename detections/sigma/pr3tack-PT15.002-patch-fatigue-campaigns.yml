@@ -1,0 +1,40 @@
+title: PR3TACK PT15.002 — Patch-Fatigue Campaigns — CISA KEV Addition During Queue Saturation
+id: b0c1d2e3-f4a5-6789-bcde-890123456789
+status: experimental
+description: >
+  Detects addition of a new CISA Known Exploited Vulnerability (KEV) entry affecting
+  a monitored dependency during a period of elevated patching queue saturation. This
+  correlation is the key indicator of a coordinated patch-fatigue campaign: an adversary
+  first floods the patching queue with lower-priority disclosures, then releases a
+  critical exploitable vulnerability while defenders are overwhelmed. Any KEV addition
+  during a saturation window must be treated as P1 regardless of queue position.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/PT15.002-patch-fatigue-campaigns.md
+  - https://www.cisa.gov/known-exploited-vulnerabilities-catalog
+  - https://www.first.org/epss/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.impact
+  - pr3tack.PT15
+  - pr3tack.PT15.002
+logsource:
+  category: application
+  product: vulnerability_management
+detection:
+  selection:
+    event_type: 'kev_addition'
+    affected_dependency_monitored: true
+    patching_queue_saturation_active: true
+  condition: selection
+falsepositives:
+  - None — any KEV addition for a monitored dependency during queue saturation is a genuine finding
+level: critical
+fields:
+  - cve_id
+  - affected_dependency
+  - affected_version
+  - kev_addition_date
+  - current_queue_depth
+  - queue_saturation_factor
+  - due_date_kev

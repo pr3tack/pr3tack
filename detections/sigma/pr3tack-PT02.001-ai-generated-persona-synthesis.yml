@@ -1,0 +1,98 @@
+title: PR3TACK PT02.001 — AI-Generated Persona Synthesis — Synthetic Identity Risk Score Threshold
+id: a3c7e291-5f4b-4d8a-b162-7e9f3a1c5d84
+status: experimental
+description: >
+  Detects inbound contractor, vendor, or external collaborator identity submissions that
+  exceed the PR3TACK synthetic identity risk score threshold. The scoring model aggregates
+  multiple weak signals — AI-generated profile photo, recently created accounts, unverifiable
+  employment history, cross-platform inconsistencies, and AI-written communications — into a
+  composite risk score. A score ≥ 40 triggers a Security review flag; ≥ 70 triggers escalation.
+  This rule fires when the composite score is written to the identity governance or HR system
+  event log by the scoring integration.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/PT02.001-ai-generated-persona-synthesis.md
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/PT02.001-ai-generated-persona-synthesis.md
+  - https://thehive.ai/
+  - https://www.aiornot.com/
+author: PR3TACK
+date: 2026/06/09
+modified: 2026/06/09
+tags:
+  - attack.resource_development
+  - attack.t1585
+  - attack.t1585.001
+  - pr3tack.PT02
+  - pr3tack.PT02.001
+logsource:
+  category: application
+  product: identity_governance
+detection:
+  selection_review:
+    event_type: 'synthetic_identity_score'
+    composite_score|gte: 40
+  condition: selection_review
+falsepositives:
+  - Legitimate candidates who use AI writing assistance tools (elevates writing_style_ai_score)
+  - Professionals who deliberately maintain minimal social media presence
+  - Candidates from regions with limited LinkedIn penetration (low connection count baseline)
+  - New graduates with limited professional history and few connections
+level: medium
+fields:
+  - identity_id
+  - identity_name
+  - submission_type
+  - composite_score
+  - photo_ai_generated_confidence
+  - linkedin_account_age_days
+  - email_domain_age_days
+  - unverifiable_employer_count
+  - writing_style_ai_score
+---
+title: PR3TACK PT02.001 — AI-Generated Persona Synthesis — Critical Threshold Escalation
+id: b8d4f162-3e9c-4a7b-c285-1f6e8b2d4a71
+status: experimental
+description: >
+  Detects inbound identity submissions scoring ≥ 70 on the PR3TACK synthetic identity
+  scoring model, indicating a high-confidence synthetic persona. Identities at this threshold
+  should be escalated to CISO/Legal and zero-trust onboarding protocols applied. A score ≥ 90
+  should result in immediate access denial pending investigation.
+  
+  Key high-weight signals include: AI-generated profile photo (score +30), cross-platform
+  inconsistencies (score +25), no reverse image match (score +25), and recently registered
+  email domain (score +20). A score ≥ 70 requires at least three of these high-weight
+  indicators to be present simultaneously.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/PT02.001-ai-generated-persona-synthesis.md
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/PT02.001-ai-generated-persona-synthesis.md
+author: PR3TACK
+date: 2026/06/09
+modified: 2026/06/09
+tags:
+  - attack.resource_development
+  - attack.t1585
+  - attack.t1585.001
+  - pr3tack.PT02
+  - pr3tack.PT02.001
+logsource:
+  category: application
+  product: identity_governance
+detection:
+  selection_escalate:
+    event_type: 'synthetic_identity_score'
+    composite_score|gte: 70
+  condition: selection_escalate
+falsepositives:
+  - Rare legitimate candidates who score high on multiple indicators due to privacy preferences
+  - Security researchers using pseudonymous professional identities
+level: high
+fields:
+  - identity_id
+  - identity_name
+  - submission_type
+  - composite_score
+  - photo_ai_generated_confidence
+  - linkedin_account_age_days
+  - email_domain_age_days
+  - unverifiable_employer_count
+  - cross_platform_inconsistencies
+  - writing_style_ai_score

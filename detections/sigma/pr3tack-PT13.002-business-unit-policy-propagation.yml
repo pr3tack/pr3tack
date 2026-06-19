@@ -1,0 +1,44 @@
+title: PR3TACK PT13.002 — Business-Unit Policy Propagation — First-Time Cross-Unit Resource Access
+id: e7f8a9b0-c1d2-3456-efab-567890123456
+status: experimental
+description: >
+  Detects an identity accessing cloud or SaaS resources belonging to a different
+  business unit for the first time — consistent with lateral movement via permissive
+  cross-unit policy inheritance. Adversaries exploit existing over-permissioned
+  RBAC policies or shared group memberships to access adjacent business unit
+  resources without modifying any policies, leaving no policy change audit trail.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/hunting/PT13.002-business-unit-policy-propagation.md
+  - https://attack.mitre.org/techniques/T1484/
+  - https://bloodhoundad.com/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.lateral_movement
+  - attack.t1484
+  - pr3tack.PT13
+  - pr3tack.PT13.002
+logsource:
+  category: cloud
+  product: generic
+detection:
+  selection:
+    event_type: 'resource_access'
+    resource_business_unit|ne: identity_business_unit
+    first_seen_cross_unit: true
+  filter_approved_cross_unit:
+    identity_id|in:
+      - 'approved-cross-unit-service-account-1'
+  condition: selection and not filter_approved_cross_unit
+falsepositives:
+  - Shared service accounts with documented cross-unit access requirements
+  - IT administrators with org-wide access performing routine operations
+level: medium
+fields:
+  - identity_id
+  - identity_business_unit
+  - resource_name
+  - resource_business_unit
+  - resource_type
+  - access_timestamp
+  - source_ip

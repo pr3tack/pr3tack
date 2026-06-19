@@ -1,0 +1,97 @@
+title: PR3TACK PT01.005 — Vector Database Systematic Embedding Space Probing
+id: b7e3f241-9c2a-4d6b-a817-3f5e8c2d1a09
+status: experimental
+description: >
+  Detects anomalously high query volumes against vector database search endpoints
+  from a single client identity within a short time window. This pattern is
+  consistent with adversarial probing of embedding space boundaries or systematic
+  attempts to reconstruct source documents via iterative nearest-neighbour queries.
+  Vector databases used in RAG architectures may expose sensitive source content
+  through repeated similarity searches even when direct document access is restricted.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT01.005-vector-database-reconnaissance.md
+  - https://owasp.org/www-project-top-10-for-large-language-model-applications/
+  - https://qdrant.tech/documentation/guides/security/
+author: PR3TACK
+date: 2026/06/09
+modified: 2026/06/09
+tags:
+  - attack.reconnaissance
+  - attack.t1590
+  - pr3tack.PT01
+  - pr3tack.PT01.005
+logsource:
+  category: webserver
+  product: generic
+detection:
+  selection:
+    cs-uri-stem|contains:
+      - '/collections/'
+      - '/points/search'
+      - '/query'
+      - '/vectors/search'
+      - '/nearest'
+      - '/search'
+  filter_health:
+    cs-uri-stem|contains:
+      - '/health'
+      - '/metrics'
+      - '/readiness'
+  timeframe: 5m
+  condition: selection and not filter_health | count() by c-ip > 200
+falsepositives:
+  - Legitimate bulk RAG pipeline ingestion or batch similarity search jobs
+  - Authorised load testing or benchmarking by engineering teams
+  - Automated embedding refresh pipelines during model retraining
+level: high
+fields:
+  - c-ip
+  - cs-uri-stem
+  - sc-status
+  - cs-user-agent
+  - cs-username
+---
+title: PR3TACK PT01.005 — Unauthenticated Access to Vector Database Endpoint
+id: d4a9c182-7f3e-4b5a-c263-8a1f6d4e2b37
+status: experimental
+description: >
+  Detects any unauthenticated request to a vector database search or collection
+  endpoint that receives a successful response. Unauthenticated access to a vector
+  database is always a critical finding regardless of query volume, as it indicates
+  the database is publicly reachable without authentication controls — exposing all
+  stored embeddings and associated metadata to enumeration.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT01.005-vector-database-reconnaissance.md
+  - https://qdrant.tech/documentation/guides/security/
+  - https://weaviate.io/developers/weaviate/configuration/authentication
+author: PR3TACK
+date: 2026/06/09
+modified: 2026/06/09
+tags:
+  - attack.reconnaissance
+  - attack.t1590
+  - pr3tack.PT01
+  - pr3tack.PT01.005
+logsource:
+  category: webserver
+  product: generic
+detection:
+  selection:
+    cs-uri-stem|contains:
+      - '/collections/'
+      - '/points/search'
+      - '/query'
+      - '/vectors/search'
+    cs-username: '-'
+    sc-status:
+      - 200
+      - 206
+  condition: selection
+falsepositives:
+  - Internal health-check probes on unauthenticated endpoints (should be remediated)
+level: critical
+fields:
+  - c-ip
+  - cs-uri-stem
+  - sc-status
+  - cs-user-agent

@@ -1,0 +1,45 @@
+title: PR3TACK PT09.002 — Identity Topology Mapping — IdP Admin API Enumeration Burst
+id: d4e5f6a7-b8c9-0123-defa-234567890123
+status: experimental
+description: >
+  Detects a single API token or identity issuing more than 50 read-only IdP admin
+  API calls (list applications, list identity providers, list federation configs,
+  list OAuth grants) within a 10-minute window. This pattern is consistent with
+  automated identity trust topology mapping — systematically enumerating SSO
+  federation chains, cross-tenant B2B configurations, and service account
+  delegation paths to identify high-value lateral movement targets.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT09.002-identity-topology-mapping.md
+  - https://developer.okta.com/docs/reference/api/system-log/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.discovery
+  - attack.t1087
+  - pr3tack.PT09
+  - pr3tack.PT09.002
+logsource:
+  category: application
+  product: okta
+detection:
+  selection:
+    eventType|contains:
+      - 'system.api_token.list'
+      - 'application.lifecycle.list'
+      - 'idp.lifecycle.list'
+      - 'group.user_membership.list'
+      - 'policy.lifecycle.list'
+  timeframe: 10m
+  condition: selection | count() by actor.id > 50
+falsepositives:
+  - CSPM and identity governance tools performing scheduled inventory scans
+  - Automated provisioning pipelines enumerating IdP state during sync
+  - HR system integrations performing bulk user reconciliation
+level: high
+fields:
+  - actor.id
+  - actor.displayName
+  - client.ipAddress
+  - eventType
+  - request_count
+  - debugContext.debugData.requestId

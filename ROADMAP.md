@@ -21,10 +21,11 @@
 
 > Growing the technique set and detection library through community contributions.
 
-- [ ] Technique coverage expansion — target 30+ techniques across 8+ tactics
-- [ ] Additional tactics: Initial Access (TA03), Execution (TA04), Persistence (TA05), Defense Evasion (TA07)
-- [ ] Detection engineering library growth — 30+ SIGMA rules
-- [ ] Hunting playbook expansion — structured hunt packages per tactic
+- [x] Technique coverage expansion — **46 techniques across 21 tactics**
+- [x] Additional tactics: PT03 Execution, PT04 Persistence, PT05 Privilege Escalation, PT07 Defense Evasion, PT08 C2, PT09 Discovery, PT10 Collection, PT11 Exfiltration, PT13 Lateral Movement, PT14 Pre-Positioning, PT15 Resilience Erosion, PT16 Governance Subversion, PT17 Cognitive Manipulation, PT18 Operational Tempo Manipulation, PT19 AI/ML Subversion, PT20 Sociotechnical Pressure, PT21 Digital Exhaust Manipulation
+- [x] Detection engineering library growth — **44 SIGMA rules, 25 detection rules, 14 analytics, 18 hunting docs**
+- [x] Hunting playbook expansion — structured hunt queries for all 46 techniques
+- [x] PT naming convention — independent ID scheme decoupled from MITRE ATT&CK (`PT<NN>.<NNN>`)
 - [ ] Community working groups — tactic-specific contributor groups
 - [ ] Peer review pipeline — structured technique review process
 
@@ -58,21 +59,30 @@
 
 ## Technique Coverage Target
 
-| Tactic | v0.1 (current) | v0.2 target | v1.0 target |
+| Tactic | v0.1 | v0.2 (current) | v1.0 target |
 |---|---|---|---|
-| PT01 Reconnaissance | 5 | 8 | 15 |
-| PT02 Resource Development | 4 | 6 | 12 |
-| TA03 Initial Access | 0 | 4 | 10 |
-| TA04 Execution | 0 | 4 | 10 |
-| TA05 Persistence | 0 | 4 | 10 |
-| PT06 Supply Chain Preparation | 1 | 4 | 8 |
-| TA07 Defense Evasion | 0 | 4 | 10 |
-| TA08 Credential Access | 0 | 3 | 8 |
-| TA09 Discovery | 0 | 3 | 8 |
-| TA10 Collection | 0 | 3 | 8 |
-| TA11 Command & Control | 0 | 3 | 8 |
-| PT12 Unix Contextual Stealth | 2 | 4 | 8 |
-| **Total** | **12** | **50** | **115** |
+| PT01 Reconnaissance | 5 | 5 | 15 |
+| PT02 Resource Development | 4 | 4 | 12 |
+| PT03 Execution | 0 | 2 | 8 |
+| PT04 Persistence | 0 | 2 | 8 |
+| PT05 Privilege Escalation | 0 | 2 | 8 |
+| PT06 Supply Chain Preparation | 1 | 1 | 8 |
+| PT07 Defense Evasion | 0 | 2 | 10 |
+| PT08 Command & Control | 0 | 2 | 8 |
+| PT09 Discovery | 0 | 2 | 8 |
+| PT10 Collection | 0 | 2 | 8 |
+| PT11 Exfiltration | 0 | 2 | 8 |
+| PT12 Unix Contextual Stealth | 2 | 2 | 8 |
+| PT13 Lateral Movement | 0 | 2 | 8 |
+| PT14 Pre-Positioning | 0 | 2 | 8 |
+| PT15 Resilience Erosion | 0 | 2 | 6 |
+| PT16 Governance Subversion | 0 | 2 | 6 |
+| PT17 Cognitive Manipulation | 0 | 2 | 6 |
+| PT18 Operational Tempo Manipulation | 0 | 2 | 6 |
+| PT19 AI/ML Subversion | 0 | 2 | 8 |
+| PT20 Sociotechnical Pressure | 0 | 2 | 6 |
+| PT21 Digital Exhaust Manipulation | 0 | 2 | 6 |
+| **Total** | **12** | **46** | **161** |
 
 ---
 

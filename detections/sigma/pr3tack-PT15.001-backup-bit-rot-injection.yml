@@ -1,0 +1,58 @@
+title: PR3TACK PT15.001 — Backup Bit-Rot Injection — Backup Catalogue Modified Outside Scheduled Window
+id: a9b0c1d2-e3f4-5678-abcd-789012345678
+status: experimental
+description: >
+  Detects modification of backup catalogue, checksum, or index files by a process
+  other than the backup service and outside the scheduled backup window. Adversaries
+  with access to backup infrastructure introduce subtle, targeted corruption into
+  backup data — modifying both the data and the stored checksum to pass integrity
+  checks — rendering backups unrestorable only at the point of recovery during
+  an incident, after normal detection opportunities have passed.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/PT15.001-backup-bit-rot-injection.md
+  - https://attack.mitre.org/techniques/T1490/
+  - https://www.veeam.com/kb4411
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.impact
+  - attack.t1490
+  - pr3tack.PT15
+  - pr3tack.PT15.001
+logsource:
+  category: file_event
+  product: generic
+detection:
+  selection:
+    target_filename|contains:
+      - '.vbk'     # Veeam full backup
+      - '.vib'     # Veeam incremental
+      - '.vrb'     # Veeam reverse incremental
+      - '.bkf'     # Windows Backup
+      - 'catalog'
+      - 'index.json'
+      - 'manifest.json'
+    event_type:
+      - 'write'
+      - 'modify'
+  filter_backup_service:
+    process_name|contains:
+      - 'VeeamAgent'
+      - 'BackupService'
+      - 'veeam'
+      - 'robocopy'
+      - 'rsync'
+  filter_scheduled_window:
+    is_scheduled_backup_window: true
+  condition: selection and not filter_backup_service and not filter_scheduled_window
+falsepositives:
+  - Manual backup operations by authorised administrators outside normal schedule
+  - Backup software performing catalogue maintenance outside normal windows
+level: critical
+fields:
+  - target_filename
+  - process_name
+  - user_identity
+  - modification_type
+  - hostname
+  - timestamp

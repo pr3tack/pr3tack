@@ -1,0 +1,41 @@
+title: PR3TACK PT17.002 — Adversarial Log Crafting — Anomalous Log Field Length
+id: f6c1e528-3b7d-4a9f-h617-1a8e3c6f5d92
+status: experimental
+description: >
+  Detects log entries where key identity or actor fields (username, hostname,
+  process name) significantly exceed the expected maximum length — consistent
+  with field overflow attacks designed to corrupt SIEM parser attribution.
+  Adversaries craft oversized field values to exploit SIEM parser buffer limits,
+  causing malicious events to be attributed to incorrect identities or dropped
+  entirely.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT17.002-adversarial-log-crafting.md
+  - https://owasp.org/www-community/attacks/Log_Injection
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.defense_evasion
+  - attack.t1565.001
+  - pr3tack.PT17
+  - pr3tack.PT17.002
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_long_user:
+    User|re: '.{256,}'
+  selection_long_image:
+    Image|re: '.{512,}'
+  selection_long_cmdline:
+    CommandLine|re: '.{4096,}'
+  condition: selection_long_user or selection_long_image or selection_long_cmdline
+falsepositives:
+  - Applications with legitimately long command lines (build systems, package managers)
+  - Long PowerShell encoded command strings from legitimate automation
+level: high
+fields:
+  - User
+  - Image
+  - CommandLine
+  - HostName
+  - ProcessId

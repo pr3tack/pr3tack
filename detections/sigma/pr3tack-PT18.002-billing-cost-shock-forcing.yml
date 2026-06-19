@@ -1,0 +1,41 @@
+title: PR3TACK PT18.002 — Billing/Cost Shock Forcing — Anomalous Compute Provisioning Rate
+id: a7b8c9d0-e1f2-3456-abcd-567890123456
+status: experimental
+description: >
+  Detects a single IAM identity provisioning cloud compute instances at a rate
+  significantly above their established baseline within a 1-hour window. Adversaries
+  deliberately trigger extreme cloud resource consumption to generate cost shock
+  events that force emergency cost-containment responses — which may inadvertently
+  disable security monitoring infrastructure, revoke administrator access, or
+  downscale SIEM capacity, creating a secondary attack window.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/analytics/PT18.002-billing-cost-shock-forcing.md
+  - https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-controls.html
+  - https://attack.mitre.org/techniques/T1496/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.impact
+  - attack.t1496
+  - pr3tack.PT18
+  - pr3tack.PT18.002
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    eventName: 'RunInstances'
+  timeframe: 1h
+  condition: selection | count() by userIdentity.arn > 20
+falsepositives:
+  - Auto-scaling groups performing legitimate scale-out events during traffic spikes
+  - Batch job launchers provisioning fleets for scheduled workloads
+  - Load testing pipelines running authorised scale tests
+level: high
+fields:
+  - userIdentity.arn
+  - userIdentity.accountId
+  - sourceIPAddress
+  - awsRegion
+  - requestParameters.instanceType
+  - instance_count_per_hour

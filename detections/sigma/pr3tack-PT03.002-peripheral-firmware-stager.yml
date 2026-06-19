@@ -1,0 +1,39 @@
+title: PR3TACK PT03.002 — Peripheral Firmware Stager — Superhuman HID Keystroke Rate
+id: e7b3f159-2d4a-4c8b-a963-5f1e7d3b2c84
+status: experimental
+description: >
+  Detects a USB HID keyboard device generating keystroke sequences at a rate
+  exceeding human capability (> 25 keystrokes/second, equivalent to > 300 WPM).
+  This pattern is characteristic of BadUSB and peripheral firmware stager attacks
+  where a microcontroller emulates a keyboard and automatically types a payload.
+references:
+  - https://github.com/pr3tack/pr3tack/blob/main/detections/rules/PT03.002-peripheral-firmware-stager.md
+  - https://srlabs.de/bites/usb-peripherals-can-turn-against-their-users/
+author: PR3TACK
+date: 2026/06/09
+tags:
+  - attack.execution
+  - attack.t1091
+  - pr3tack.PT03
+  - pr3tack.PT03.002
+logsource:
+  category: driver
+  product: windows
+detection:
+  selection:
+    EventID:
+      - 2003
+      - 2004
+    DeviceClass: 'HID'
+    DeviceSubclass: 'keyboard'
+    KeystrokesPerSecond|gt: 25
+  condition: selection
+falsepositives:
+  - Macro keyboards configured with very fast playback rates
+  - Approved automation devices pre-registered in the peripheral inventory
+level: high
+fields:
+  - DeviceName
+  - DeviceVidPid
+  - KeystrokesPerSecond
+  - HostName
